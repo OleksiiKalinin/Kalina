@@ -1,0 +1,33 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    background-color: cornflowerblue;
+    flex: 40px;
+    z-index: 100;
+}
+
+.label {
+    font-size: x-large;
+}
+
+.header ul{
+    display: flex;
+    flex-direction: row;
+    width: 300px;
+    justify-content: space-evenly;
+}
+
+.header ul li {
+    list-style: none;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.header ul li:hover {
+    background-color: #4c84ee;
+}
+
+.header ul li a {
+    text-decoration: none;
+}
