@@ -11,14 +11,16 @@ import Pusher from 'pusher-js';
 import { useHttp } from '../../../hooks/http.hook';
 import { setDialogsAC } from '../../../redux/dialogs-reducer';
 import { connect } from 'react-redux';
+import { useState } from 'react';
 
 const pusher = new Pusher('b634efb073fba40fbf3a', {
     cluster: 'eu'
 });
 
 const DialogsList = (props) => {    
-    const {loading, error, request, clearError} = useHttp();
-
+    const {error, request, clearError} = useHttp();
+    const [loading, setLoading] = useState(false);
+    
     const getDialogs = async () => {
         try {
             const data = await request('/api/chats/get/conversations', 'GET', null, {
