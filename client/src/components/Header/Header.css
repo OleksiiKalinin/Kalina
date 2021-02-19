@@ -10,6 +10,10 @@
     font-size: x-large;
 }
 
+.label a{
+    text-decoration: none;
+}
+
 .header ul{
     display: flex;
     flex-direction: row;
@@ -19,7 +23,7 @@
 
 .header ul li {
     list-style: none;
-    display: inline-flex;
+    display: flex;
     align-items: center;
     border-radius: 10px;
 }
@@ -30,4 +34,7 @@
 
 .header ul li a {
     text-decoration: none;
+    /* height: 100%;
+    width: 100%;
+    vertical-align: center; */
 }

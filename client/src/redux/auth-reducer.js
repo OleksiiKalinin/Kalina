@@ -6,7 +6,7 @@ let initialState = {
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'LOGIN':
-            localStorage.setItem('storageName', JSON.stringify({
+            sessionStorage.setItem('storageName', JSON.stringify({
                 token: action.jwtSecret,
                 user: action.user
             }));
@@ -17,7 +17,7 @@ const authReducer = (state = initialState, action) => {
                 user: action.user
             }
         case 'LOGOUT':
-            localStorage.removeItem('storageName');
+            sessionStorage.removeItem('storageName');
 
             return {
                 ...state,

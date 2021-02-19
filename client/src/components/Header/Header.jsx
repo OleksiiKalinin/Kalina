@@ -16,10 +16,10 @@ const Header = (props) => {
 
     return (
         <header className='header'>
-            <span className="label"><big>Kalina chats</big></span>
+            <span className="label"><Link to="/"><big>Kalina chats</big></Link></span>
             <ul className="navigation">
                 <li><Link to="/dialogs">Dialogs</Link></li>
-                <li><Link to="/profile/:userId?">Profile</Link></li>
+                <li><Link to="/profile">Profile</Link></li>
                 <li><Link to="/users">Users</Link></li>
                 <li><Link to="/" onClick={logoutHandler}>Log out</Link></li>
             </ul>

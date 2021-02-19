@@ -24,12 +24,12 @@ const AuthPage = (props) => {
     },[error, message, clearError]);
 
     useEffect(() => {
-        const data = JSON.parse(localStorage.getItem('storageName'));
+        const data = JSON.parse(sessionStorage.getItem('storageName'));
         
         if (data && data.token) {
             login(data.token, data.user);
         }
-    }, [])
+    }, [login])
 
     const changeHandler = e => {
         setForm({...form, [e.target.name]: e.target.value});
@@ -64,7 +64,7 @@ const AuthPage = (props) => {
             :
                 <div className="auth-form">
                     <div className="auth-form__inner">
-                        <h1>Sign In With</h1>
+                        <h1>Sign {isRegistrateForm ? "Up" : "In"} With</h1>
                         <div className='auth-form__main'>
                             <div className='auth-form__fields'>
                                 <div className="auth-form__email">

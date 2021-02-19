@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
-import {BrowserRouter as Router} from "react-router-dom";
+import {BrowserRouter as Router, HashRouter} from "react-router-dom";
 import Header from "./components/Header/Header";
 import { connect } from 'react-redux';
 import { useRoutes } from './routes';
+// import Spinner from './components/Spinner/spinner';
+import { loginAC } from './redux/auth-reducer';
 
 const App = (props) => {
+    const data = JSON.parse(sessionStorage.getItem('storageName'));
+        
+    if (data && data.token) {
+        props.login(data.token, props.user);
+    }
+
     const isAuthenticated = !!props.token;
     const routes = useRoutes(isAuthenticated);
 
@@ -24,7 +32,16 @@ const App = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-    token: state.auth.token
+    token: state.auth.token,
+    user: state.auth.user
 });
 
-export default connect(mapStateToProps)(App);
+let mapDispatchToProps = (dispatch) => {
+    return {
+        login: (token, user) => {
+            dispatch(loginAC(token, user));
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
