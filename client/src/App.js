@@ -11,7 +11,7 @@ const App = (props) => {
     const data = JSON.parse(sessionStorage.getItem('storageName'));
         
     if (data && data.token) {
-        props.login(data.token, props.user);
+        props.login(data.token, data.user);
     }
 
     const isAuthenticated = !!props.token;
@@ -32,8 +32,7 @@ const App = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-    token: state.auth.token,
-    user: state.auth.user
+    token: state.auth.token
 });
 
 let mapDispatchToProps = (dispatch) => {

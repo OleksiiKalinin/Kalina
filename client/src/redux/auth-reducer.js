@@ -10,7 +10,7 @@ const authReducer = (state = initialState, action) => {
                 token: action.jwtSecret,
                 user: action.user
             }));
-
+            
             return {
                 ...state,
                 token: action.jwtSecret,

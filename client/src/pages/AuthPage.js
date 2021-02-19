@@ -49,6 +49,7 @@ const AuthPage = (props) => {
         try {
             setLoading(true);
             const data = await request('/api/auth/login', 'POST', {...form}, {Authorization: `Bearer ${props.token}`});
+
             login(data.token, data.user);
         } catch {console.log(-1)}
     }
