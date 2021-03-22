@@ -1,11 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Slider from '../components/Slider/Slider';
+import './HomePage.scss';
 
 const HomePage = (props) => {
     return (
-        <div>
-            <h1>Hi, choose "Dialogs" on navigation bar</h1>
-        </div>
+        <>
+            <div className='element'>
+                <Slider/>
+            </div>
+            <div className='element'>
+                <div>There will be posts your followings</div>
+            </div>
+        </>
     );
 };
 

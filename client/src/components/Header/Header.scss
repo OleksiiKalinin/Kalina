@@ -1,0 +1,36 @@
+.header {
+    background-color: white;
+    height: 40px;
+    width: 100%;
+    z-index: 100;
+    border-bottom: 1px solid #e7e8ec;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.label {
+    font-size: x-large;
+}
+
+.label a{
+    text-decoration: none;
+}
+
+.navigation{
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.navigation a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    border-radius: 10px;
+    padding: 0 10px;
+}
+
+.navigation a:hover {
+    background-color: #4c84ee;
+}

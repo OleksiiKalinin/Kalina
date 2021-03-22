@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import './App.css';
+import React from 'react';
+import './App.scss';
 import {BrowserRouter as Router, HashRouter} from "react-router-dom";
 import Header from "./components/Header/Header";
 import { connect } from 'react-redux';
@@ -19,12 +19,11 @@ const App = (props) => {
 
     return (
         <Router>
-            <div className='root__child'>
+            <div className='white-line'></div>
+            <div className='app'>
                 {isAuthenticated && <Header />}
                 <div className='app-wrapper'> 
-                    <div className='app-wrapper-content'>
-                        {routes}
-                    </div>
+                    {routes}
                 </div>
             </div>
         </Router>
