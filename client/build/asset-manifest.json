@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/static/css/main.56b6a632.chunk.css",
-    "main.js": "/static/js/main.c338eaea.chunk.js",
-    "main.js.map": "/static/js/main.c338eaea.chunk.js.map",
+    "main.css": "/static/css/main.609da022.chunk.css",
+    "main.js": "/static/js/main.fc56dc73.chunk.js",
+    "main.js.map": "/static/js/main.fc56dc73.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.c012fedc.js",
     "runtime-main.js.map": "/static/js/runtime-main.c012fedc.js.map",
     "static/js/2.8b771d1b.chunk.js": "/static/js/2.8b771d1b.chunk.js",
     "static/js/2.8b771d1b.chunk.js.map": "/static/js/2.8b771d1b.chunk.js.map",
     "index.html": "/index.html",
-    "static/css/main.56b6a632.chunk.css.map": "/static/css/main.56b6a632.chunk.css.map",
+    "static/css/main.609da022.chunk.css.map": "/static/css/main.609da022.chunk.css.map",
     "static/js/2.8b771d1b.chunk.js.LICENSE.txt": "/static/js/2.8b771d1b.chunk.js.LICENSE.txt",
     "static/media/arrowback.f36fb0e7.svg": "/static/media/arrowback.f36fb0e7.svg",
     "static/media/Slider.scss": "/static/media/right.1559edd4.svg",
@@ -17,7 +17,7 @@
   "entrypoints": [
     "static/js/runtime-main.c012fedc.js",
     "static/js/2.8b771d1b.chunk.js",
-    "static/css/main.56b6a632.chunk.css",
-    "static/js/main.c338eaea.chunk.js"
+    "static/css/main.609da022.chunk.css",
+    "static/js/main.fc56dc73.chunk.js"
   ]
 }
