@@ -35,6 +35,12 @@ const MessagesList = (props) => {
     }
 
     useEffect(() => {
+        window.addEventListener('resize', () => fixScroll());
+
+        return () =>  window.removeEventListener('resize', () => fixScroll());
+    }, [])
+
+    useEffect(() => {
         const pusher = new Pusher('b634efb073fba40fbf3a', {
             cluster: 'eu'
         });
