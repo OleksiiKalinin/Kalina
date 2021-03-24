@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 // import ChatIcon from '@material-ui/icons/Chat';
 // import DonutLargeIcon from '@material-ui/icons/DonutLarge';
 // import MoreVertIcon from '@material-ui/icons/MoreVert';
-import "./DialogsList.css";
+import "./DialogsList.scss";
 // import { IconButton, Avatar } from '@material-ui/core';
 import { SearchOutlined } from '@material-ui/icons';
 import DialogItem from './DialogItem';
@@ -20,7 +20,8 @@ const pusher = new Pusher('b634efb073fba40fbf3a', {
 const DialogsList = (props) => {    
     const {error, request, clearError} = useHttp();
     const [loading, setLoading] = useState(false);
-    
+    const dialogs = useRef(null);
+
     const getDialogs = async () => {
         try {
             const data = await request('/api/chats/get/conversations', 'GET', null, {
@@ -30,6 +31,11 @@ const DialogsList = (props) => {
         } catch {console.log(1)}
     }
 
+    
+    useEffect(() => {
+        !props.isDialogSelected ? dialogs.current.classList.add('show') : dialogs.current.classList.remove('show');
+    }, [props.isDialogSelected])
+    
     useEffect(() => {
         getDialogs();
         
@@ -62,20 +68,8 @@ const DialogsList = (props) => {
     }
     
     return (
-        <div className='dialogs'>
+        <div ref={dialogs} className='dialogs'>
             <div className='dialogs__header'>
-                {/* <Avatar src=''/> 
-                <div className='dialogs__headerRight'>
-                    <IconButton>
-                        <DonutLargeIcon/>
-                    </IconButton>
-                    <IconButton>
-                        <ChatIcon/>
-                    </IconButton>
-                    <IconButton>
-                        <MoreVertIcon/>
-                    </IconButton>
-                </div> */}
                 <Button onClick={addNewChat}>Add a new chat</Button>
             </div>
             <div className='dialogs__search'>
@@ -94,6 +88,7 @@ const DialogsList = (props) => {
 let mapStateToProps = (state) => {
     return {
         dialogs: state.dialogsPage.dialogs,
+        isDialogSelected: state.dialogsPage.isDialogSelected,
         user: state.auth.user,
         token: state.auth.token
     }

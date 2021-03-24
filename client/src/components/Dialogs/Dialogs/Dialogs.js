@@ -1,21 +1,21 @@
 import React from 'react';
-import './Dialogs.css';
+import './Dialogs.scss';
 import DialogsList from '../DialogsList/DialogsList';
 import MessagesListContainer from '../MessagesList/MessagesListContainer';
 import { connect } from 'react-redux';
  
 const Dialogs = (props) => {
     return (
-        <div className='main'>
+        <div className='dialogs-page'>
             <DialogsList />
-            {!props.isDialogChose ? <div className='chooseChat'>Choose a chat</div> : <MessagesListContainer />}
+            {!props.isDialogSelected ? <div className='chooseChat'>Choose a chat</div> : <MessagesListContainer />}
         </div>
     )
 }
 
 let mapStateToProps = (state) => {
     return {
-        isDialogChose: state.dialogsPage.isDialogChose
+        isDialogSelected: state.dialogsPage.isDialogSelected
     }
 }
 

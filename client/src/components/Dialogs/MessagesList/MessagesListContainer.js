@@ -1,4 +1,4 @@
-import {sendMessageCreator, setChatAC, setMessagesAC} from "../../../redux/dialogs-reducer";
+import {sendMessageCreator, setChatAC, setIsDialogSelectedAC, setMessagesAC} from "../../../redux/dialogs-reducer";
 import MessagesList from "./MessagesList";
 import {connect} from "react-redux";
 
@@ -20,6 +20,9 @@ let mapDispatchToProps = (dispatch) => {
         },
         setChat: chat => {
             dispatch(setChatAC(chat))
+        },
+        setIsDialogSelected: (a) => {
+            dispatch(setIsDialogSelectedAC(a))
         }
     }
 }

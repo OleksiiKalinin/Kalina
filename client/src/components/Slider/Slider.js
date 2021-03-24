@@ -28,6 +28,8 @@ const Slider = () => {
         colorCurDot();
     
         slidesField.current.style.width = 100 * slidesUrls.length + '%';
+
+        return () => window.removeEventListener('resize', fixOffset);
     }, []);
 
     const nextBtnClicked = () => {

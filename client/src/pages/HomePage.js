@@ -5,14 +5,23 @@ import './HomePage.scss';
 
 const HomePage = (props) => {
     return (
-        <>
+        <div className='home-page'>
+            <div className='element'>
+                <Slider/>
+            </div>
+            <div className='element'>
+                <Slider/>
+            </div>
+            <div className='element'>
+                <Slider/>
+            </div>
             <div className='element'>
                 <Slider/>
             </div>
             <div className='element'>
                 <div>There will be posts your followings</div>
             </div>
-        </>
+        </div>
     );
 };
 

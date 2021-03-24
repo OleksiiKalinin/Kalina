@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef, forwardRef, useEffect, useRef } from 'react';
 import './App.scss';
 import {BrowserRouter as Router, HashRouter} from "react-router-dom";
 import Header from "./components/Header/Header";
@@ -9,20 +9,33 @@ import { loginAC } from './redux/auth-reducer';
 
 const App = (props) => {
     const data = JSON.parse(sessionStorage.getItem('storageName'));
-        
+    const appWrapper = useRef(null);
+
     if (data && data.token) {
         props.login(data.token, data.user);
     }
 
+    useEffect(() => {
+        fixOffset()
+        
+        window.addEventListener('resize', fixOffset);
+
+        return () => window.removeEventListener('resize', fixOffset);
+    }, []);
+
     const isAuthenticated = !!props.token;
     const routes = useRoutes(isAuthenticated);
+
+    function fixOffset() {
+        appWrapper.current.style.height = document.body.clientHeight - 40 + 'px';
+    }
 
     return (
         <Router>
             <div className='white-line'></div>
             <div className='app'>
                 {isAuthenticated && <Header />}
-                <div className='app-wrapper'> 
+                <div ref={appWrapper} className='app-wrapper'> 
                     {routes}
                 </div>
             </div>

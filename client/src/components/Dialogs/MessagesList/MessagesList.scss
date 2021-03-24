@@ -1,24 +1,39 @@
 .messages {
     display: flex;
     flex-direction: column;
-    flex: 0.75;
+    flex: 0.65;
 }
 
 .messages__header {
-    padding: 20px;
+    padding-left: 15px;
+    background-color: white;
+    border-top-right-radius: 4px;
     display: flex;
     align-items: center;
     border-bottom: 1px solid lightgray;
 }
 
+.btnBack {
+    display: none;
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
 .messages__headerInfo {
     flex: 1;
-    padding-left: 20px;
+    padding-left: 10px;
 }
 
 .messages__headerInfo > h3 {
     margin: 0;
-    font-weight: 500;
+    font-size: calc(16px + 4 * ((100vw - 320px) / (1920 - 320)));
+}
+
+@media (max-width: 767px) {
+    .messages__headerInfo > h3{
+        font-size: calc(16px + (4 + 4*0.7) * ((100vw - 320px)/ 1024));
+    }
 }
 
 .messages__headerInfo > p {
@@ -29,7 +44,7 @@
 .messages__body {
     flex: 1;
     background-color: rgb(200, 200, 200);
-    padding: 30px;
+    padding: 15px;
     overflow-y: scroll;
 }
 
@@ -37,7 +52,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 62px;
+    height: 50px;
     border-top: 1px solid lightgray;
 }
 
@@ -58,6 +73,17 @@
 } */
 
 .messages__footer > .MuiSvgIcon-root {
-    padding: 10px;
     color: gray;
+}
+
+@media (max-width: 560px) {
+    .messages {
+        flex: 1;
+    }
+    .btnBack {
+        display: block;
+    }
+    .emoji {
+        display: none !important;
+    }
 }

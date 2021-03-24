@@ -15,8 +15,8 @@ const Header = (props) => {
     };
 
     return (
-        <header className='header'>
-            <span className="label"><Link to="/"><big>Kalina chats</big></Link></span>
+        <header className='header' ref={props.parentRef}>
+            <span className="label"><Link to="/"><big>Kalina</big></Link></span>
             <div className="navigation">
                 <Link to="/">Home</Link>
                 <Link to="/profile">Profile</Link>

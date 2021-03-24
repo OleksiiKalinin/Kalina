@@ -2,7 +2,7 @@ let initialState = {
     dialogs: [],
     messages: [],
     chat: {},
-    isDialogChose: false
+    isDialogSelected: false
 };
 
 const dialogsReducer = (state = initialState, action) => {
@@ -27,10 +27,10 @@ const dialogsReducer = (state = initialState, action) => {
                 ...state,
                 chat: action.chat
             };
-        case 'SET_IS_DIALOG_CHOSEN':
+        case 'SET_IS_DIALOG_SELECTED':
             return {
                 ...state,
-                isDialogChose: true
+                isDialogSelected: action.isDialogSelected
         };
         default:
             return state;
@@ -41,6 +41,6 @@ export const sendMessageCreator = () => ({type: 'SEND_MESSAGE'});
 export const setMessagesAC = (messages) => ({type: 'SET_MESSAGES', messages});
 export const setDialogsAC = (dialogs) => ({type: 'SET_DIALOGS', dialogs});
 export const setChatAC = (chat) => ({type: 'SET_CHAT', chat});
-export const setIsDialogChoseAC = () => ({type: 'SET_IS_DIALOG_CHOSEN'});
+export const setIsDialogSelectedAC = (isDialogSelected) => ({type: 'SET_IS_DIALOG_SELECTED', isDialogSelected});
 
 export default dialogsReducer;

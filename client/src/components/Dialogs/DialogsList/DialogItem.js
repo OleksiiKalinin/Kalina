@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import './DialogItem.css';
+import './DialogItem.scss';
 import {Link} from "react-router-dom";
 import { Avatar } from '@material-ui/core';
 import Pusher from 'pusher-js';
-import { setChatAC, setDialogsAC, setIsDialogChoseAC, setMessagesAC } from "../../../redux/dialogs-reducer";
+import { setChatAC, setDialogsAC, setIsDialogSelectedAC, setMessagesAC } from "../../../redux/dialogs-reducer";
 import { connect } from 'react-redux';
 import { useHttp } from '../../../hooks/http.hook';
+import userPhoto from "../../../assets/images/user.png";
 
 const pusher = new Pusher('b634efb073fba40fbf3a', {
     cluster: 'eu'
@@ -38,7 +39,7 @@ const DialogItem = (props) => {
         };
     }, [props.id]);
 
-    const choosedDialog = async () => {
+    const selectedDialog = async () => {
         try {
             const data = await request(`/api/chats/get/conversation?id=${props.id}`, 'GET', null, {Authorization: `Bearer ${props.token}`});
             props.setMessages(data['0'].conversation);
@@ -46,7 +47,7 @@ const DialogItem = (props) => {
                 chatName: data['0'].chatName,
                 chatId: props.id
             });
-            props.setIsDialogChose();
+            props.setIsDialogSelected(true);
         } catch {console.log(1)}
     }
 
@@ -58,17 +59,22 @@ const DialogItem = (props) => {
 
     return (
         // <Link to={path}>
-            <div onClick={() => choosedDialog()} className='dialogItem'>
+            <div onClick={selectedDialog} className='dialogItem'>
                 <div className='dialogItem__info'>
-                    <Avatar />
-                    <h2>{props.name}</h2>
-                    <p>{(displayName + ': ' + message) || ''}</p>
+                    <img className='avatar' src={userPhoto} alt=''/>
+                    <div>
+                        <div><h1>{props.name}</h1></div>
+                        <div><p>{`${displayName}: ${message}...`}</p></div>
+                    </div>
+                    <div className="timaStamp"><small>24.03</small></div>
                 </div>
-                <small>{new Date(parseInt(timestamp)).toISOString().replace(/T/g, ' ').replace(/\..*/, '')}</small> 
             </div>
         // </Link>  
     )
 }
+
+
+// {/* <div><small>{new Date(parseInt(timestamp)).toISOString().replace(/T/g, ' ').replace(/\..*/, '')}</small> </div> */}
 
 let mapStateToProps = (state) => {
     return {
@@ -88,8 +94,8 @@ let mapDispatchToProps = (dispatch) => {
         setChat: chat => {
             dispatch(setChatAC(chat))
         },
-        setIsDialogChose: () => {
-            dispatch(setIsDialogChoseAC())
+        setIsDialogSelected: (a) => {
+            dispatch(setIsDialogSelectedAC(a))
         }
     }
 }

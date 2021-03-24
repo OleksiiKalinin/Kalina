@@ -2,10 +2,11 @@ import { Avatar, IconButton } from '@material-ui/core';
 import { AttachFile, InsertEmoticon, MoreVert, SearchOutlined } from '@material-ui/icons';
 import MicIcon from '@material-ui/icons/Mic';
 import React, { useEffect, useState } from 'react';
-import './MessagesList.css';
+import './MessagesList.scss';
 import Pusher from 'pusher-js';
 import Message from './Message';
 import { useHttp } from '../../../hooks/http.hook';
+import btnBack from '../../../assets/images/arrowback.svg';
 
 const MessagesList = (props) => {
     const {loading, error, request, clearError} = useHttp();
@@ -55,9 +56,12 @@ const MessagesList = (props) => {
         };
     }, [props.chat.chatId]);
 
+    const toggleChat = () => {props.setIsDialogSelected(false)}
+
     return (
         <div className='messages'>
             <div className='messages__header'>
+                <div className='btnBack' onClick={toggleChat}><svg  xmlns="http://www.w3.org/2000/svg"><line x1="2" x2="30" y1="15" y2="15" stroke="black" strokeWidth="3"/><line x1="0" x2="15" y1="15" y2="10" stroke="black" strokeWidth="3"/><line x1="0" x2="15" y1="15" y2="20" stroke="black" strokeWidth="3"/></svg></div>
                 <Avatar />
                 <div className='messages__headerInfo'>
                     <h3>{props.chat.chatName}</h3>
@@ -79,7 +83,7 @@ const MessagesList = (props) => {
                 { props.messages.map( message => <Message userName={props.user.displayName} message={message} key={message._id} /> ) }
             </div>
             <div className='messages__footer'>
-                <InsertEmoticon />
+                <InsertEmoticon className='emoji'/>
                 <form>
                     <input 
                         type='text'

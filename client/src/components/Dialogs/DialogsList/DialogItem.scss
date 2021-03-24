@@ -1,0 +1,43 @@
+.dialogItem {
+    padding: 5px;
+    cursor: pointer;
+    border-bottom: 1px solid #f6f6f6;
+}
+
+.dialogItem:hover {
+    background-color: #e2dddd;
+}
+
+.dialogItem__info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0 5px;
+}
+
+.dialogItem__info > div {
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.dialogItem__info > div *{
+    display: inline-block;
+}
+
+.dialogItem__info > div h1{
+    font-size: calc(16px + 4 * ((100vw - 320px) / (1920 - 320)));
+}
+
+.dialogItem__info > div p{
+    font-size: calc(13px + 10 * ((100vw - 320px) / (1920 - 320)));
+}
+
+.timaStamp {
+    margin-left: auto;
+}
+
+.avatar {
+    height: calc(30px + 30 * ((100vw - 320px) / (1920 - 320)));
+    width: calc(30px + 30 * ((100vw - 320px) / (1920 - 320)));
+    margin-right: 10px;
+}
