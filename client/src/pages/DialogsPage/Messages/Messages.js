@@ -2,9 +2,9 @@ import { Avatar, IconButton } from '@material-ui/core';
 import { AttachFile, InsertEmoticon, MoreVert, SearchOutlined } from '@material-ui/icons';
 import MicIcon from '@material-ui/icons/Mic';
 import React, { useEffect, useState } from 'react';
-import './MessagesList.scss';
+import './Messages.scss';
 import Pusher from 'pusher-js';
-import Message from './Message';
+import MessageItem from './MessageItem';
 import { useHttp } from '../../../hooks/http.hook';
 import btnBack from '../../../assets/images/arrowback.svg';
 
@@ -25,8 +25,10 @@ const MessagesList = (props) => {
     }
 
     const fixScroll = () => {
-        const block = document.querySelector('.messages__body');
-        block.scrollTop = block.scrollHeight;
+        try {
+            const block = document.querySelector('.messages__body');
+            block.scrollTop = block.scrollHeight;
+        } catch{}
     }
 
     const onNewMessageChange = (e) => {
@@ -37,7 +39,7 @@ const MessagesList = (props) => {
     useEffect(() => {
         window.addEventListener('resize', () => fixScroll());
 
-        return () =>  window.removeEventListener('resize', () => fixScroll());
+        return () => window.removeEventListener('resize', () => fixScroll());
     }, [])
 
     useEffect(() => {
@@ -51,7 +53,7 @@ const MessagesList = (props) => {
                 const data = await request(`/api/chats/get/conversation?id=${props.chat.chatId}`, 'GET', null, {Authorization: `Bearer ${props.token}`});
                 props.setMessages(data['0'].conversation);
                 fixScroll();
-            } catch {console.log(1)}
+            } catch {}
         });
 
         fixScroll();
@@ -71,7 +73,6 @@ const MessagesList = (props) => {
                 <Avatar />
                 <div className='messages__headerInfo'>
                     <h3>{props.chat.chatName}</h3>
-                    <p>Last seen at...</p>
                 </div>
                 <div className='messages__headerRight'>
                     <IconButton>
@@ -86,7 +87,7 @@ const MessagesList = (props) => {
                 </div>
             </div>
             <div className='messages__body'>
-                { props.messages.map( message => <Message userName={props.user.displayName} message={message} key={message._id} /> ) }
+                { props.messages.map( message => <MessageItem userName={props.user.displayName} message={message} key={message._id} /> ) }
             </div>
             <div className='messages__footer'>
                 <InsertEmoticon className='emoji'/>

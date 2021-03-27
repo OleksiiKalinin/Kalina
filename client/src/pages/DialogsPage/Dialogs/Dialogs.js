@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 // import ChatIcon from '@material-ui/icons/Chat';
 // import DonutLargeIcon from '@material-ui/icons/DonutLarge';
 // import MoreVertIcon from '@material-ui/icons/MoreVert';
-import "./DialogsList.scss";
+import "./Dialogs.scss";
 // import { IconButton, Avatar } from '@material-ui/core';
 import { SearchOutlined } from '@material-ui/icons';
 import DialogItem from './DialogItem';
@@ -21,6 +21,8 @@ const DialogsList = (props) => {
     const {error, request, clearError} = useHttp();
     const [loading, setLoading] = useState(false);
     const dialogs = useRef(null);
+    const dialogsHeader = useRef(null);
+    const dialogsItems = useRef(null);
 
     const getDialogs = async () => {
         try {
@@ -28,7 +30,7 @@ const DialogsList = (props) => {
                 Authorization: `Bearer ${props.token}`,
             });
             props.setDialogs(data);
-        } catch {console.log(1)}
+        } catch(err) {console.log(err)}
     }
 
     
@@ -69,16 +71,17 @@ const DialogsList = (props) => {
     
     return (
         <div ref={dialogs} className='dialogs'>
-            <div className='dialogs__header'>
-                <Button onClick={addNewChat}>Add a new chat</Button>
+            <div ref={dialogsHeader} className='dialogs__header'>
+                <input placeholder='Search or start new chat' type='text' />
+                <button onClick={addNewChat}>+</button>
             </div>
-            <div className='dialogs__search'>
+            {/* <div className='dialogs__search'>
                 <div className='dialogs__searchContainer'>
                     <SearchOutlined/>
                     <input placeholder='Search or start new chat' type='text' />
                 </div>
-            </div>
-            <div className='dialogs__items'>
+            </div> */}
+            <div ref={dialogsItems} className='dialogs__items'>
                 {props.dialogs.map(dialog => <DialogItem name={dialog.name} key={dialog.id} id={dialog.id} timestamp={dialog.timestamp}/> )} 
             </div>
         </div>

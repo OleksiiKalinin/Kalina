@@ -1,22 +1,18 @@
 import React from 'react';
-import {Switch, Route, Redirect} from 'react-router-dom';
-import Dialogs from './components/Dialogs/Dialogs/Dialogs';
-import ProfileContainer from './components/Profile/ProfileContainer';
-import UsersContainer from './components/Users/UsersContainer';
-import AuthPage from './pages/AuthPage';
-import Home from './pages/HomePage';
+import {Switch, Route} from 'react-router-dom';
+import DialogsPage from './pages/DialogsPage/DialogsPage';
+import ProfilePage from './pages/ProfilePage/Profile';
+import UsersPage from './pages/UsersPage/UsersContainer';
+import AuthPage from './pages/AuthPage/AuthPage';
+import HomePage from './pages/HomePage/HomePage';
 
-export const useRoutes = (isAuthenticated) => {
-    if (isAuthenticated) {
-        return (
-            <Switch>
-                <Route  path='/dialogs' component={Dialogs}/>
-                {/* <Route exact path='/profile' render={ () => <ProfileContainer /> }/> */}
-                <Route exact path='/users' render={ () => <UsersContainer /> }/>
-                <Route exact path="/" component={Home}/>
-            </Switch>
-        )
-    }
-
-    return <Route path="/" exact component={AuthPage} />
+export const useRoutes = () => {
+    return (
+        <Switch>
+            <Route  path='/dialogs' component={DialogsPage}/>
+            <Route exact path='/profile' render={ () => <ProfilePage /> }/>
+            <Route exact path='/users' render={ () => <UsersPage /> }/>
+            <Route exact path="/" component={HomePage}/>
+        </Switch>
+    )
 }

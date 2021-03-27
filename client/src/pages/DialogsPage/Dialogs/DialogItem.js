@@ -61,10 +61,10 @@ const DialogItem = (props) => {
         // <Link to={path}>
             <div onClick={selectedDialog} className='dialogItem'>
                 <div className='dialogItem__info'>
-                    <img className='avatar' src={userPhoto} alt=''/>
-                    <div>
+                    <div className='dialogItem__info-avatar'><img src={userPhoto} alt=''/></div>
+                    <div className='dialogItem__info-main'>
                         <div><h1>{props.name}</h1></div>
-                        <div><p>{`${displayName}: ${message}...`}</p></div>
+                        <span className='dialogItem__info-message'>{displayName}: {message}</span>
                     </div>
                     <div className="timaStamp"><small>24.03</small></div>
                 </div>

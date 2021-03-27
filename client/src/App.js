@@ -1,16 +1,20 @@
 import React, { createRef, forwardRef, useEffect, useRef } from 'react';
 import './App.scss';
-import {BrowserRouter as Router, HashRouter} from "react-router-dom";
+import {BrowserRouter as Router, HashRouter, Route} from "react-router-dom";
 import Header from "./components/Header/Header";
 import { connect } from 'react-redux';
 import { useRoutes } from './routes';
 // import Spinner from './components/Spinner/spinner';
 import { loginAC } from './redux/auth-reducer';
+import AuthPage from './pages/AuthPage/AuthPage';
 
 const App = (props) => {
     const data = JSON.parse(sessionStorage.getItem('storageName'));
     const appWrapper = useRef(null);
 
+    const isAuthenticated = !!props.token;
+    const routes = useRoutes();
+    
     if (data && data.token) {
         props.login(data.token, data.user);
     }
@@ -21,24 +25,29 @@ const App = (props) => {
         window.addEventListener('resize', fixOffset);
 
         return () => window.removeEventListener('resize', fixOffset);
-    }, []);
-
-    const isAuthenticated = !!props.token;
-    const routes = useRoutes(isAuthenticated);
+    }, [isAuthenticated]);
 
     function fixOffset() {
-        appWrapper.current.style.height = document.body.clientHeight - 40 + 'px';
+        try{
+            appWrapper.current.style.height = document.body.clientHeight - (isAuthenticated ? 40 : 0) + 'px';
+        } catch {}    
     }
 
     return (
         <Router>
-            <div className='white-line'></div>
-            <div className='app'>
-                {isAuthenticated && <Header />}
-                <div ref={appWrapper} className='app-wrapper'> 
-                    {routes}
-                </div>
-            </div>
+            {!isAuthenticated ? 
+                <Route path="/" exact component={AuthPage} />
+                :
+                <>
+                    <div className='white-line'></div>
+                    <div className='app'>
+                        <Header />
+                        <div ref={appWrapper} className='app-wrapper'> 
+                            {routes}
+                        </div>
+                    </div>
+                </>
+            }
         </Router>
     )
 }

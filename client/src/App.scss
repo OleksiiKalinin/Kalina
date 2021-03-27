@@ -6,16 +6,11 @@
 ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
-    background-color: rgb(165, 169, 172);
 }
 
 ::-webkit-scrollbar-thumb {
     background-color: rgb(77, 76, 76);
     border-radius: 9em;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background-color: #253861;
 }
 
 .app {
@@ -39,4 +34,12 @@
     height: 40px;
     background-color: white;
     border-bottom: 1px solid #e7e8ec;
+    z-index: 0;
+}
+
+@media (max-width: 560px) {
+    ::-webkit-scrollbar {
+        width: 1px;
+        height: 1px;
+    }
 }

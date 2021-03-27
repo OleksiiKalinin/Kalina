@@ -1,17 +1,17 @@
 import React, { createRef, useEffect, useRef } from 'react';
 import './Slider.scss';
 
-const Slider = () => {
+const Slider = ({imgWidth, imgHeight}) => {
     const slidesUrls = [
             {url: 'https://www.sunchemical.com/wp-content/uploads/2019/07/SunWave_banner-1200x400.jpg'},
             {url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPuUErrrIAbhJWNbw-taT2n5SqTHHPAdjPS6Nd8eGJhsYOmZ1sEHICT8QkN5EbEL0XWVo&usqp=CAU'},
             {url: 'https://www.mapix.com/wp-content/uploads/2018/04/1200x400.png'},
             {url: 'https://sinctech.com/wp-content/uploads/2017/07/placeholder-1200x400.png'}
         ], //slider_item
-        slidesWrapper = useRef(null), //slider_container
-        slidesField = useRef(null), //slider_track
-        slider = useRef(null), //slider_track
-        dotWrapper = useRef(null), //slider-dot-wrapper
+        slidesWrapper = useRef(null), 
+        slidesField = useRef(null), 
+        slider = useRef(null), 
+        dotWrapper = useRef(null), 
         slides = useRef(slidesUrls.map(() => createRef())),
         dots = useRef(slidesUrls.map(() => createRef()));
 
@@ -26,7 +26,7 @@ const Slider = () => {
         window.addEventListener('resize', fixOffset);
 
         colorCurDot();
-    
+        
         slidesField.current.style.width = 100 * slidesUrls.length + '%';
 
         return () => window.removeEventListener('resize', fixOffset);
@@ -97,7 +97,7 @@ const Slider = () => {
     }
 
     function fixSliderHeight() {
-        slider.current.style.height = `${width/3}px`;
+        slider.current.style.height = `${width/(imgWidth/imgHeight)}px`;
     }
 
     function fixOffset() {

@@ -1,5 +1,5 @@
 import {sendMessageCreator, setChatAC, setIsDialogSelectedAC, setMessagesAC} from "../../../redux/dialogs-reducer";
-import MessagesList from "./MessagesList";
+import MessagesList from "./Messages";
 import {connect} from "react-redux";
 
 let mapStateToProps = (state) => {

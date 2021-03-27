@@ -1,0 +1,32 @@
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import Slider from '../../components/Slider/Slider';
+import { useHttp } from '../../hooks/http.hook';
+import './HomePage.scss';
+import PostItem from './PostItem';
+
+const HomePage = (props) => {
+    const [allPosts, setAllPosts] = useState([]);
+    const {error, request, clearError} = useHttp();
+
+    useEffect(async () => {
+        const data = await request('/api/posts/get/posts', 'GET', null, {
+            Authorization: `Bearer ${props.token}`,
+        });
+        setAllPosts(data.posts)
+    }, []);
+    return (
+        <div className='home-page'>
+            <div className='element'>
+                <Slider imgWidth={1200} imgHeight={500}/>
+            </div>
+            {allPosts.map(post => <PostItem post={post}  key={post._id}/>)}
+        </div>
+    );
+};
+
+const mapStateToProps = (state) => ({
+    token: state.auth.token
+});
+
+export default connect(mapStateToProps)(HomePage);

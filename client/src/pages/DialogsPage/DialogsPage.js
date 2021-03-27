@@ -1,7 +1,7 @@
 import React from 'react';
-import './Dialogs.scss';
-import DialogsList from '../DialogsList/DialogsList';
-import MessagesListContainer from '../MessagesList/MessagesListContainer';
+import './DialogsPage.scss';
+import DialogsList from './Dialogs/Dialogs';
+import MessagesListContainer from './Messages/MessagesContainer';
 import { connect } from 'react-redux';
  
 const Dialogs = (props) => {

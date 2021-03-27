@@ -1,0 +1,53 @@
+.dialogItem {
+    padding: 5px;
+    cursor: pointer;
+    border-bottom: 1px solid #f6f6f6;
+}
+
+.dialogItem:hover {
+    background-color: #e2dddd;
+}
+
+.dialogItem__info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0 5px;
+}
+
+.dialogItem__info > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.dialogItem__info-main {
+    flex: 1;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.dialogItem__info-main h1{
+    // font-size: calc(16px + 4 * ((100vw - 320px) / (1920 - 320)));
+    font-size: 15px;
+}
+
+.dialogItem__info-message{
+    font-size: 15px;
+}
+
+.timaStamp {
+    width: 40px;
+    align-self: flex-end;
+    white-space: nowrap;
+    margin-left: 10px;
+}
+
+.dialogItem__info-avatar {
+    // height: calc(30px + 30 * ((100vw - 320px) / (1920 - 320)));
+    // width: calc(30px + 30 * ((100vw - 320px) / (1920 - 320)));
+    height: 40px;
+    width: 40px;
+    white-space: nowrap;
+    margin-right: 10px;
+}
