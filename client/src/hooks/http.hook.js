@@ -10,8 +10,8 @@ export const useHttp = () => {
                 headers['Content-Type'] = 'application/json';
             }
 
-            const res = await fetch(`http://localhost:5000${url}`, {method, body, headers});
-            // const res = await fetch(`https://kalinaserver.herokuapp.com${url}`, {method, body, headers});
+            // const res = await fetch(`http://localhost:5000${url}`, {method, body, headers});
+            const res = await fetch(`https://kalinaserver.herokuapp.com${url}`, {method, body, headers});
             const data = await res.json();
 
             if (!res.ok) {
