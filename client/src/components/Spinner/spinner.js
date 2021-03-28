@@ -1,12 +1,10 @@
 import React from 'react';
-import './spinner.css';
+import './Spinner.scss';
 
 const Spinner = () => {
     return (
         <div className="wrapper">
-            <div className="ldio-xb2vocd1fhk">
-                <div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div>
-            </div>
+            <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
         </div>
     );
 }

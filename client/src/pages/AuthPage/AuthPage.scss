@@ -37,6 +37,17 @@ a:hover {
     height: 200px;
     background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(https://i.redd.it/spo5q1n66gg11.jpg);
     background-size: cover;
+
+    .copy {
+        color: white;
+        text-align: center;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    p {
+        font-weight: 400;
+    }
 }
 
 .left, .right {
@@ -47,71 +58,41 @@ a:hover {
 
 .right {
     flex: .7;
-}
 
-.left .copy {
-    color: white;
-    text-align: center;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
+    .copy {
+        color: black;
+        text-align: center;
 
-.left p {
-    font-weight: 400;
-}
+        p {
+            margin: 1.5em 0;
+            font-size: 0.875rem;
+        }
+    }
 
-.right .copy {
-    color: black;
-    text-align: center;
-}
-
-.right .copy p {
-    margin: 1.5em 0;
-    font-size: 0.875rem;
-}
-
-.right form {
-    width: 328px;
-}
-
-form input:not([type='checkbox']) {
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-    border-radius: 8px;
-    border: 1px solid #c4c4c4;
-    padding: 1em;
-    margin-bottom: 1.25rem;
-    font-size: 0.875rem;
-}
-
-label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-style: 0.75rem;
+    form {
+        width: 328px;
+    
+        input:not([type='checkbox']) {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            border-radius: 8px;
+            border: 1px solid #c4c4c4;
+            padding: 1em;
+            margin-bottom: 1.25rem;
+            font-size: 0.875rem;
+        }
+    }
+    
+    label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-style: 0.75rem;
+    }
 }
 
 .input-container .password {
     position: relative;
-}
-
-.input-container .password i{
-    position: absolute;
-    top: 42px;
-    right: 16px;
-}
-
-.input-container .cta {
-    display: flex;
-    flex-direction: row;
-}
-
-.checkbox-container input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
 }
 
 .checkbox-container {
@@ -121,11 +102,33 @@ label {
     cursor: pointer;
     user-select: none;
     margin: 0 0 1.25rem 0;
-}
 
-.checkbox-container input:checked- .checkmark {
-    background-color: $blue;
-    border: 1px solid $blue;
+    input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+
+    input:checked- .checkmark {
+        background-color: $blue;
+        border: 1px solid $blue;
+    }
+
+    input:checked- .checkmark:after {
+        display: block;
+    }
+
+    .checkmark:after {
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        width: 5px;
+        height: 10px;
+        left: 8px;
+        top: 4px;
+        transform: rotate(45deg);
+    }
 }
 
 .checkmark {
@@ -137,26 +140,12 @@ label {
     border-radius: 2px;
     top: -4px;
     left: 0;
-}
 
-.checkmark::after {
-    content: '';
-    position: absolute;
-    display: none;
-}
-
-.checkbox-container input:checked- .checkmark:after {
-    display: block;
-}
-
-.checkbox-container .checkmark:after {
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    width: 5px;
-    height: 10px;
-    left: 8px;
-    top: 4px;
-    transform: rotate(45deg);
+    :after {
+        content: '';
+        position: absolute;
+        display: none;
+    }
 }
 
 .signup-btn {
@@ -171,22 +160,32 @@ label {
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-}
 
-.signup-btn:hover {
-    background: #2c4893;
-    cursor: pointer;
+    :hover {
+        background: #2c4893;
+        cursor: pointer;
+    }
 }
 
 @media screen and (min-width: 560px) {
     .split-screen {
         flex-direction: row;
         height: 100%;
+        overflow-y: hidden;
     }
     .left, .right {
         flex: .5;
-        display: flex;
-        width: 50%;
         height: auto;
+    }
+
+    .right {
+        height: 100%;
+        overflow-y: scroll;
+    }
+}
+
+@media screen and (max-height: 510px) {
+    .right form {
+        height: 100%;
     }
 }

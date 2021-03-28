@@ -1,6 +1,34 @@
-import React from 'react';
+import { connect } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useState } from 'react';
+import { useHttp } from '../../hooks/http.hook';
 
-const PostItem = ({post}) => {
+const PostItem = ({post, token, user}) => {
+    const {loading, error, request, clearError} = useHttp();
+    const [isLiked, setIsLiked] = useState(post.likes.includes(user._id));
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [likesCount, setLikesCount] = useState(post.likes.length);
+    const [comments, setComments] = useState(post.comments);
+    const [newComment, setNewComment] = useState('');
+
+    useEffect(async () => {
+        if (isLoaded) {
+            const data = await request(`/api/posts/put/${isLiked ? 'like' : 'unlike'}`, 'PUT', {postId: post._id}, {Authorization: `Bearer ${token}`});
+            setLikesCount(data.likes.length);
+        }
+    }, [isLiked]);
+
+    const likeHandler = () => {
+        setIsLoaded(true);
+        setIsLiked(!isLiked);
+    }
+    
+    const newCommentHandler = async () => {
+        const data = await request(`/api/posts/put/comment`, 'PUT', {postId: post._id, text: newComment}, {Authorization: `Bearer ${token}`});
+        setComments(data.comments);
+        setNewComment('');
+    }
+
     return (
         <div className='element'>
             <div className='card'>
@@ -9,14 +37,22 @@ const PostItem = ({post}) => {
                     <img src={post.picture} alt=""/>
                 </div>
                 <div className='card-content'>
-                    <div className='favo'></div>
-                    <h6>{post.title}</h6>
+                    <i onClick={likeHandler} className={"material-icons"} style={{fontSize: '40px', cursor: 'pointer'}}>{isLiked ? 'favorite' : 'favorite_border'}</i>
+                    <h6>{likesCount} likes</h6>
                     <p>{post.body}</p>
-                    <input type='text' placeholder='add a comment'/>
+                    <small><strong>Comments</strong></small>
+                    {comments.map(item => <div key={item._id}>{item.owner.displayName + ': ' + item.text}</div>)}
+                    <input value={newComment} onChange={(e) => setNewComment(e.target.value)} type='text' placeholder='add a comment'/>
+                    <button onClick={newCommentHandler}>Send comment</button>
                 </div>
             </div>
         </div>
     );
 };
 
-export default PostItem;
+const mapStateToProps = (state) => ({
+    token: state.auth.token,
+    user: state.auth.user,
+});
+
+export default connect(mapStateToProps)(PostItem);

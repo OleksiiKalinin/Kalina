@@ -5,7 +5,7 @@
 }
 
 .messages__header {
-    padding-left: 15px;
+    // padding-left: 3px;
     background-color: white;
     border-top-right-radius: 4px;
     display: flex;
@@ -15,9 +15,6 @@
 
 .btnBack {
     display: none;
-    width: 30px;
-    height: 30px;
-    margin-right: 10px;
 }
 
 .messages__headerInfo {

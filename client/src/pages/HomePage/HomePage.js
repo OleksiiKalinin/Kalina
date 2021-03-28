@@ -4,9 +4,11 @@ import Slider from '../../components/Slider/Slider';
 import { useHttp } from '../../hooks/http.hook';
 import './HomePage.scss';
 import PostItem from './PostItem';
+import Spinner from '../../components/Spinner/Spinner';
 
 const HomePage = (props) => {
     const [allPosts, setAllPosts] = useState([]);
+    const [loading, setLoading] = useState(true);
     const {error, request, clearError} = useHttp();
 
     useEffect(async () => {
@@ -14,13 +16,16 @@ const HomePage = (props) => {
             Authorization: `Bearer ${props.token}`,
         });
         setAllPosts(data.posts)
+        setLoading(false)
     }, []);
+
     return (
         <div className='home-page'>
+            {loading && <Spinner/>}
             <div className='element'>
                 <Slider imgWidth={1200} imgHeight={500}/>
             </div>
-            {allPosts.map(post => <PostItem post={post}  key={post._id}/>)}
+            {allPosts.map(post => <PostItem post={post} key={post._id}/>)}
         </div>
     );
 };

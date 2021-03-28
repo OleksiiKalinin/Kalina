@@ -39,6 +39,12 @@ const Profile = (props) => {
         .catch(err => console.log(err));
     };
 
+    const deletePost = async () => {
+        const data = await request('/api/posts/delete/post/id', 'DELETE', null, {
+            Authorization: `Bearer ${props.token}`,
+        });
+    }
+
     return (
         <div className='profile-page'>
             <div className='profile__info'>
@@ -70,7 +76,8 @@ const Profile = (props) => {
                 </div>
             </>}
             <div className='profile__gallery'>
-                {myPosts.map(post => <img src={post.picture} alt=""/>)}
+            {/* <i onClick={deletePost} className={"material-icons"} style={{fontSize: '30px', cursor: 'pointer', float: 'right'}}>delete</i> */}
+                {myPosts.map(post => <img key={post._id} src={post.picture} alt=""/>)}
             </div>
         </div>
     )

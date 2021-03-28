@@ -69,7 +69,7 @@ const MessagesList = (props) => {
     return (
         <div className='messages'>
             <div className='messages__header'>
-                <div className='btnBack' onClick={toggleChat}><svg  xmlns="http://www.w3.org/2000/svg"><line x1="2" x2="30" y1="15" y2="15" stroke="black" strokeWidth="3"/><line x1="0" x2="15" y1="15" y2="10" stroke="black" strokeWidth="3"/><line x1="0" x2="15" y1="15" y2="20" stroke="black" strokeWidth="3"/></svg></div>
+                <i onClick={toggleChat} className={"material-icons btnBack"} style={{fontSize: '40px'}}>arrow_back</i>
                 <Avatar />
                 <div className='messages__headerInfo'>
                     <h3>{props.chat.chatName}</h3>
