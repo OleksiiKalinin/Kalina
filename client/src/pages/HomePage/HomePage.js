@@ -22,9 +22,9 @@ const HomePage = (props) => {
     return (
         <div className='home-page'>
             {loading && <Spinner/>}
-            <div className='element'>
+            {/* <div className='element'>
                 <Slider imgWidth={1200} imgHeight={500}/>
-            </div>
+            </div> */}
             {allPosts.map(post => <PostItem post={post} key={post._id}/>)}
         </div>
     );

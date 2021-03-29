@@ -15,13 +15,14 @@ const Slider = ({imgWidth, imgHeight}) => {
         slides = useRef(slidesUrls.map(() => createRef())),
         dots = useRef(slidesUrls.map(() => createRef()));
 
-    let slideIndex = 1, offset = 0, toSlide = 1, width = '';
+    let slideIndex = 1, offset = 0, toSlide = 1,
+        width = '';
 
     useEffect(() => {
         width = replaceWords(window.getComputedStyle(slidesWrapper.current).width);
         fixSlideSize();
         fixOffset();
-        // console.log(offset)
+        
         window.addEventListener('resize', fixOffset);
 
         colorCurDot();
@@ -57,7 +58,6 @@ const Slider = ({imgWidth, imgHeight}) => {
         } else {
             offset += width * toSlide;
         }
-        console.log(offset)
         slidesField.current.style.transform = `translateX(-${offset}px)`;
     }
 
@@ -67,7 +67,6 @@ const Slider = ({imgWidth, imgHeight}) => {
         } else {
             offset -= width * toSlide;
         }
-        console.log(offset)
         slidesField.current.style.transform = `translateX(-${offset}px)`;
     }
 

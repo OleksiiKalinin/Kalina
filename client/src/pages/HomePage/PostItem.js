@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { useHttp } from '../../hooks/http.hook';
+import { Link } from 'react-router-dom';
 
 const PostItem = ({post, token, user}) => {
     const {loading, error, request, clearError} = useHttp();
@@ -32,7 +33,7 @@ const PostItem = ({post, token, user}) => {
     return (
         <div className='element'>
             <div className='card'>
-                <h5>{post.owner.displayName}</h5>
+                <h5><Link to={user._id !== post.owner._id ? '/profile/' + post.owner._id : '/profile'}>{post.owner.displayName}</Link></h5>
                 <div className='card-image'>
                     <img src={post.picture} alt=""/>
                 </div>
