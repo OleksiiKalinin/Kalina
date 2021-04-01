@@ -14,7 +14,7 @@ const App = (props) => {
 
     const isAuthenticated = !!props.token;
     const routes = useRoutes();
-    
+
     if (data && data.token) {
         props.login(data.token, data.user);
     }
@@ -56,7 +56,7 @@ const mapStateToProps = (state) => ({
     token: state.auth.token
 });
 
-let mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) => {
     return {
         login: (token, user) => {
             dispatch(loginAC(token, user));

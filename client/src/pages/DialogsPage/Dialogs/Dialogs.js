@@ -62,10 +62,9 @@ const DialogsList = (props) => {
 
                 await request(`/api/chats/new/message?id=${chatId}`, 'POST', {
                     message: firstMsg,
-                    timestamp: Date.now(),
-                    user: props.user
+                    timestamp: Date.now()
                 }, {Authorization: `Bearer ${props.token}`});
-            } catch {console.log(1)}
+            } catch(err) {console.log(err)}
         }
     }
     
@@ -82,7 +81,7 @@ const DialogsList = (props) => {
                 </div>
             </div> */}
             <div ref={dialogsItems} className='dialogs__items'>
-                {props.dialogs.map(dialog => <DialogItem name={dialog.name} key={dialog.id} id={dialog.id} timestamp={dialog.timestamp}/> )} 
+                {props.dialogs.map(dialog => <DialogItem name={dialog.name} key={dialog.id} id={dialog.id} timestamp={dialog.timestamp} extra={dialog.extra}/> )} 
             </div>
         </div>
     )  

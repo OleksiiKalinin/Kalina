@@ -25,7 +25,9 @@ const HomePage = (props) => {
             {/* <div className='element'>
                 <Slider imgWidth={1200} imgHeight={500}/>
             </div> */}
-            {allPosts.map(post => <PostItem post={post} key={post._id}/>)}
+            <div className='home-page__inner'>
+                {allPosts.map(post => <PostItem post={post} key={post._id}/>)}
+            </div>
         </div>
     );
 };

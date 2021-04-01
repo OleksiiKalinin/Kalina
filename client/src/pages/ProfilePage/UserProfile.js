@@ -4,6 +4,8 @@ import { Link, useParams } from 'react-router-dom';
 import { useHttp } from '../../hooks/http.hook';
 import Spinner from '../../components/Spinner/Spinner';
 import './Profile.scss';
+import { Avatar } from '@material-ui/core';
+import userPhoto from '../../assets/images/user.png'
 
 const Profile = (props) => {
     const {error, request, clearError} = useHttp(); 
@@ -16,6 +18,7 @@ const Profile = (props) => {
             Authorization: `Bearer ${props.token}`,
         });
         setUserProfile(data)
+        console.log(data)
         setIsFollowing(data.user.followers.includes(props.user._id));
     }, []);
 
@@ -44,6 +47,26 @@ const Profile = (props) => {
 
         setIsFollowing(false);
     }
+
+    const sendMessage = async () => {
+        const chatName = 'prompt';
+        const firstMsg = 'Hello';
+
+        // if(chatName && firstMsg) {
+            try {
+                let chatId = '';
+
+                const data = await request('/api/chats/new/conversation', 'POST', {chatName, other: userId}, {Authorization: `Bearer ${props.token}`});
+
+                chatId = data._id
+
+                await request(`/api/chats/new/message?id=${chatId}`, 'POST', {
+                    message: firstMsg,
+                    timestamp: Date.now()
+                }, {Authorization: `Bearer ${props.token}`});
+            } catch(err) {console.log(err)}
+        // }
+    }
     
     return(
         <>
@@ -54,8 +77,7 @@ const Profile = (props) => {
             <div className='profile-page'>
                 <div className='profile__info'>
                     <div>
-                        <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/5952bfa6-4594-4d7c-bee6-0b5a3988a099/dapn32z-2a11b870-38b2-4caf-ba16-5bbe9a84fe7f.png/v1/fill/w_200,h_200,strp/moonlight_deer___200x200_pixelart_by_fluffzee_dapn32z-fullview.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3siaGVpZ2h0IjoiPD0yMDAiLCJwYXRoIjoiXC9mXC81OTUyYmZhNi00NTk0LTRkN2MtYmVlNi0wYjVhMzk4OGEwOTlcL2RhcG4zMnotMmExMWI4NzAtMzhiMi00Y2FmLWJhMTYtNWJiZTlhODRmZTdmLnBuZyIsIndpZHRoIjoiPD0yMDAifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.nf-qh5IpeWu7UCzndssg2ee6_hETzDEAjAQ8cmU0JXE" alt="" />
-                    </div> 
+                        <Avatar src={userProfile.profileImg || userPhoto}/>                    </div> 
                     <div>
                         <h4>{userProfile.user.displayName}</h4>
                         <div className='profile__info-attributes'>
@@ -69,6 +91,8 @@ const Profile = (props) => {
                             :
                             <button onClick={followUser}>Follow</button>
                         }
+                        
+                        <button onClick={sendMessage}>Send hello message</button>
                     </div>
                 </div>
                 <div className='profile__gallery'>

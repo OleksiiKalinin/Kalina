@@ -16,7 +16,16 @@ const DialogItem = (props) => {
     // const path = "/dialogs/" + props.id;
     const {loading, error, request, clearError} = useHttp();
     const [dialogsLastMsg, setDialogsLastMsg] = useState({});
+    const [extra, setExtra] = useState({});
     let displayName = '', message = '', timestamp = 0;
+
+    useEffect(() => {
+        props.extra.forEach(el => {
+            if (el.id !== props.user._id) {
+                setExtra(el);
+            }
+        });
+    }, []);
 
     const getLastMessage = async () => {
         try {
@@ -42,9 +51,10 @@ const DialogItem = (props) => {
     const selectedDialog = async () => {
         try {
             const data = await request(`/api/chats/get/conversation?id=${props.id}`, 'GET', null, {Authorization: `Bearer ${props.token}`});
-            props.setMessages(data['0'].conversation);
+            props.setMessages(data.conversation);
             props.setChat({
-                chatName: data['0'].chatName,
+                chatName: extra.displayName || data.chatName,
+                chatImg: extra.profileImg || data.chatImg,
                 chatId: props.id
             });
             props.setIsDialogSelected(true);
@@ -52,18 +62,18 @@ const DialogItem = (props) => {
     }
 
     try {
-        displayName = dialogsLastMsg.user.displayName;
+        displayName = dialogsLastMsg.owner.displayName;
         message = dialogsLastMsg.message;
         timestamp = dialogsLastMsg.timestamp;
     } catch {}
 
     return (
-        // <Link to={path}>
+        // <Link to={'/dialogs/' + props.id}>
             <div onClick={selectedDialog} className='dialogItem'>
                 <div className='dialogItem__info'>
-                    <div className='dialogItem__info-avatar'><img src={userPhoto} alt=''/></div>
+                    <div className='dialogItem__info-avatar'><Avatar src={extra.profileImg || userPhoto}/></div>
                     <div className='dialogItem__info-main'>
-                        <div><h1>{props.name}</h1></div>
+                        <div><h1>{extra.displayName || props.name}</h1></div>
                         <span className='dialogItem__info-message'>{displayName}: {message}</span>
                     </div>
                     <div className="timaStamp"><small>24.03</small></div>
@@ -79,7 +89,8 @@ const DialogItem = (props) => {
 let mapStateToProps = (state) => {
     return {
         dialogs: state.dialogsPage.dialogs,
-        token: state.auth.token
+        token: state.auth.token,
+        user: state.auth.user
     }
 }
 

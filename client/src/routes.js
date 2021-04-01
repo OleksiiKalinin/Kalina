@@ -3,15 +3,15 @@ import {Switch, Route} from 'react-router-dom';
 import DialogsPage from './pages/DialogsPage/DialogsPage';
 import ProfilePage from './pages/ProfilePage/Profile';
 import UserProfile from './pages/ProfilePage/UserProfile';
-import UsersPage from './pages/UsersPage/UsersContainer';
+import UsersPage from './pages/UsersPage/Users';
 import HomePage from './pages/HomePage/HomePage';
 
 export const useRoutes = () => {
     return (
         <Switch>
-            <Route exact path='/dialogs' component={DialogsPage}/>
+            <Route path='/dialogs' component={DialogsPage}/>
             <Route exact path='/profile' render={ () => <ProfilePage /> }/>
-            <Route path='/profile/:userId' render={ () => <UserProfile /> }/>
+            <Route exact path='/profile/:userId' render={ () => <UserProfile /> }/>
             <Route exact path='/users' render={ () => <UsersPage /> }/>
             <Route exact path="/" component={HomePage}/>
         </Switch>

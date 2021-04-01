@@ -17,8 +17,7 @@ const MessagesList = (props) => {
         try {
             await request(`/api/chats/new/message?id=${props.chat.chatId}`, 'POST', {
                 message: newMessage,
-                timestamp: Date.now(),
-                user: props.user
+                timestamp: Date.now()
             }, {Authorization: `Bearer ${props.token}`});
         } catch {console.log(1)}
         setNewMessage('');
@@ -51,7 +50,7 @@ const MessagesList = (props) => {
         channel.bind('newMessage', async () => {
             try {
                 const data = await request(`/api/chats/get/conversation?id=${props.chat.chatId}`, 'GET', null, {Authorization: `Bearer ${props.token}`});
-                props.setMessages(data['0'].conversation);
+                props.setMessages(data.conversation);
                 fixScroll();
             } catch {}
         });
@@ -70,7 +69,7 @@ const MessagesList = (props) => {
         <div className='messages'>
             <div className='messages__header'>
                 <i onClick={toggleChat} className={"material-icons btnBack"} style={{fontSize: '40px'}}>arrow_back</i>
-                <Avatar />
+                <Avatar src={props.chat.chatImg}/>
                 <div className='messages__headerInfo'>
                     <h3>{props.chat.chatName}</h3>
                 </div>

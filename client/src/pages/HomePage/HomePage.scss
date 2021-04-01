@@ -1,29 +1,123 @@
 .home-page {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    overflow-y: scroll;
     margin-top: 15px;
     padding-bottom: 15px;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+.home-page__inner {
+    position: relative;
+    margin: 0 auto;
+    display: flex;
+    max-width: 600px;
+    flex-direction: column;
 }
 
 .element {
     margin: 15px;
     margin-top: 0;
-    padding: 10px;
     border-radius: 4px;
     background-color: white;
     border: 1px solid #e7e8ec;
 }
 
-.favo {
-    width: 40px;
-    height: 40px;
-    background-color: red;
+.card-header {
+    width: 100%;
+    padding: 10px;
+    border-bottom: 1px solid #e7e8ec;
+
+    .MuiAvatar-root {
+        width: 32px !important;
+        height: 32px !important;
+        margin-right: 10px;
+    }
+
+    a {
+        display: flex;
+        flex-direction: row;
+        text-decoration: none;
+    }
+
+    p {
+        height: 22px;
+        align-self: center;
+        color: black;
+    }
 }
 
 .card-image img {
-    max-width: 100%;
+    width: 100%;
+}
+
+.card-content {
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid #e7e8ec;
+
+    .comments {
+        height: auto;
+        max-height: 42px;
+        overflow: hidden;
+    }
+
+    .show-comments {
+        max-height: 150px;
+        overflow: scroll;
+    }
+
+    .show-comments-btn {
+        font-size: 13px;
+        color: #8e8e8e;
+        cursor: pointer;
+    }
+
+    .timestamp {
+        margin-top: 5px;
+        font-size: 11px;
+        color: #8e8e8e;
+    }
+}
+
+.new-comment {
+    position: relative;
+    padding: 8px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .emojicon {
+        flex: .06;
+        color: #8e8e8e;
+        cursor: pointer;
+    }
+
+    input {
+        flex: .74;
+        padding: 5px;
+        border: none;
+    }
+
+    input:focus {
+        outline: none;
+    }
+
+    button {
+        cursor: pointer;
+        flex: .2;
+        border: none;
+        background: none;
+        color: blue;
+    }
+
+    button:disabled {
+        opacity: .3;
+    }
+
+    button:focus {
+        outline: none;
+        background: none;
+    }
 }
 
 @media(max-width: 800px) {
@@ -32,6 +126,8 @@
         padding: 7px;
         margin-top: 0;
     }
+
+    
 }
 
 @media(max-width: 600px) {
@@ -40,4 +136,13 @@
         padding: 5px;
         margin-top: 0;
     }
+    .new-comment .emojicon {
+        display: none;
+    }
 }
+
+// @media screen {
+//     .new-comment .emojicon {
+//         display: none;
+//     }
+// }
