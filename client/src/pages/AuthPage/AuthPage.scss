@@ -58,6 +58,7 @@ a:hover {
 
 .right {
     flex: .7;
+    padding: 5px;
 
     .copy {
         color: black;
@@ -66,6 +67,12 @@ a:hover {
         p {
             margin: 1.5em 0;
             font-size: 0.875rem;
+        }
+
+        .login-container p {
+            display: inline-block;
+            border-bottom: 3px solid red;
+            font-size: .9rem;
         }
     }
 
@@ -110,42 +117,6 @@ a:hover {
         height: 0;
         width: 0;
     }
-
-    input:checked- .checkmark {
-        background-color: $blue;
-        border: 1px solid $blue;
-    }
-
-    input:checked- .checkmark:after {
-        display: block;
-    }
-
-    .checkmark:after {
-        border: solid white;
-        border-width: 0 3px 3px 0;
-        width: 5px;
-        height: 10px;
-        left: 8px;
-        top: 4px;
-        transform: rotate(45deg);
-    }
-}
-
-.checkmark {
-    position: absolute;
-    width: 24px;
-    height: 24px;
-    background: white;
-    border: 1px solid #c4c4c4;
-    border-radius: 2px;
-    top: -4px;
-    left: 0;
-
-    :after {
-        content: '';
-        position: absolute;
-        display: none;
-    }
 }
 
 .signup-btn {
@@ -161,7 +132,7 @@ a:hover {
     text-transform: uppercase;
     letter-spacing: 0.5px;
 
-    :hover {
+    &:hover {
         background: #2c4893;
         cursor: pointer;
     }

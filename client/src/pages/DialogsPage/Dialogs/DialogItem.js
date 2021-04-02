@@ -68,23 +68,21 @@ const DialogItem = (props) => {
     } catch {}
 
     return (
-        // <Link to={'/dialogs/' + props.id}>
-            <div onClick={selectedDialog} className='dialogItem'>
-                <div className='dialogItem__info'>
-                    <div className='dialogItem__info-avatar'><Avatar src={extra.profileImg || userPhoto}/></div>
-                    <div className='dialogItem__info-main'>
-                        <div><h1>{extra.displayName || props.name}</h1></div>
-                        <span className='dialogItem__info-message'>{displayName}: {message}</span>
-                    </div>
-                    <div className="timaStamp"><small>24.03</small></div>
+        <div onClick={selectedDialog} className='dialogItem'>
+            <div className='dialogItem__info'>
+                <div className='dialogItem__info-avatar'><Avatar src={extra.profileImg || userPhoto}/></div>
+                <div className='dialogItem__info-main'>
+                    <div><h1>{extra.displayName || props.name}</h1></div>
+                    <span className='dialogItem__info-message'>{displayName}: {message}</span>
                 </div>
+                <div className="timaStamp"><small>{new Date(parseInt(timestamp)).getMonth()}.{new Date(parseInt(timestamp)).getDay()}</small></div>
             </div>
-        // </Link>  
+        </div>
     )
 }
 
 
-// {/* <div><small>{new Date(parseInt(timestamp)).toISOString().replace(/T/g, ' ').replace(/\..*/, '')}</small> </div> */}
+// {/* <div><small>.toISOString().replace(/T/g, ' ').replace(/\..*/, '')</small> </div> */}
 
 let mapStateToProps = (state) => {
     return {

@@ -12,6 +12,7 @@ import { useHttp } from '../../../hooks/http.hook';
 import { setDialogsAC } from '../../../redux/dialogs-reducer';
 import { connect } from 'react-redux';
 import { useState } from 'react';
+import Spinner from '../../../components/Spinner/Spinner';
 
 const pusher = new Pusher('b634efb073fba40fbf3a', {
     cluster: 'eu'
@@ -19,7 +20,8 @@ const pusher = new Pusher('b634efb073fba40fbf3a', {
 
 const DialogsList = (props) => {    
     const {error, request, clearError} = useHttp();
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [searchChats, setSearchChats] = useState('');
     const dialogs = useRef(null);
     const dialogsHeader = useRef(null);
     const dialogsItems = useRef(null);
@@ -30,9 +32,9 @@ const DialogsList = (props) => {
                 Authorization: `Bearer ${props.token}`,
             });
             props.setDialogs(data);
+            setLoading(false);
         } catch(err) {console.log(err)}
     }
-
     
     useEffect(() => {
         !props.isDialogSelected ? dialogs.current.classList.add('show') : dialogs.current.classList.remove('show');
@@ -47,8 +49,7 @@ const DialogsList = (props) => {
         });
     }, []);
 
-    const addNewChat = async (e) => {
-        e.preventDefault();
+    const addNewChat = async () => {
         const chatName = prompt('Enter a chat name');
         const firstMsg = prompt('Send a welcome message');
 
@@ -69,21 +70,23 @@ const DialogsList = (props) => {
     }
     
     return (
-        <div ref={dialogs} className='dialogs'>
-            <div ref={dialogsHeader} className='dialogs__header'>
-                <input placeholder='Search or start new chat' type='text' />
-                <button onClick={addNewChat}>+</button>
-            </div>
-            {/* <div className='dialogs__search'>
-                <div className='dialogs__searchContainer'>
-                    <SearchOutlined/>
-                    <input placeholder='Search or start new chat' type='text' />
+            <div ref={dialogs} className={'dialogs show'}>
+                <div ref={dialogsHeader} className='dialogs__header'>
+                    <div className="search-chats">
+                        <i className="material-icons" style={{position: 'absolute', top: '50%', transform: 'translateY(-50%)', paddingLeft: '5px'}}>search</i>
+                        <input type="text" placeholder="Search the chat or start new" id="search-chats-input" value={searchChats} onChange={(e) => setSearchChats(e.target.value)}/>
+                        <i onClick={addNewChat} className="material-icons" style={{position: 'absolute', top: '50%', right: '0', transform: 'translateY(-50%)', paddingRight: '5px'}}>add</i>
+                    </div>
                 </div>
-            </div> */}
-            <div ref={dialogsItems} className='dialogs__items'>
-                {props.dialogs.map(dialog => <DialogItem name={dialog.name} key={dialog.id} id={dialog.id} timestamp={dialog.timestamp} extra={dialog.extra}/> )} 
+                <div ref={dialogsItems} className='dialogs__items'>
+                {
+                    loading ? 
+                    <Spinner />
+                    :
+                    props.dialogs.map(dialog => <DialogItem name={dialog.name} key={dialog.id} id={dialog.id} timestamp={dialog.timestamp} extra={dialog.extra}/> )
+                }
+                </div>
             </div>
-        </div>
     )  
 }
 

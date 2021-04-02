@@ -1,14 +1,14 @@
 import React from 'react';
 import './DialogsPage.scss';
-import DialogsList from './Dialogs/Dialogs';
-import MessagesListContainer from './Messages/MessagesContainer';
+import Dialogs from './Dialogs/Dialogs';
+import Messages from './Messages/MessagesContainer';
 import { connect } from 'react-redux';
  
-const Dialogs = (props) => {
+const DialogsPage = (props) => {
     return (
         <div className='dialogs-page'>
-            <DialogsList />
-            {!props.isDialogSelected ? <div className='chooseChat'>Choose a chat</div> : <MessagesListContainer />}
+            <Dialogs />
+            {!props.isDialogSelected ? <div className='chooseChat'>Choose a chat</div> : <Messages />}
         </div>
     )
 }
@@ -19,4 +19,4 @@ let mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(Dialogs);
+export default connect(mapStateToProps)(DialogsPage);

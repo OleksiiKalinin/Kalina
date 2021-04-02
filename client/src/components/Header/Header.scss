@@ -12,8 +12,12 @@
     margin-left: 15px;
     font-size: x-large;
 
-    a{
-        text-decoration: none;
+    a {
+        color: black;
+    
+        &:hover {
+            text-decoration: none;
+        }
     }
 }
 
@@ -28,10 +32,16 @@
         text-decoration: none;
         border-radius: 10px;
         padding: 0 10px;
-        font-size: calc(11px + 4 * ((100vw - 320px) / (1920 - 320)));
+        font-size: 15px;
 
         &:hover {
+            text-decoration: none;
             background-color: #4c84ee;
+        }
+
+        i {
+            font-size: 30px;
+            color: black;
         }
     }
 }
@@ -51,6 +61,7 @@
 .search-user {
     position: relative;
     display: inline-block;
+    width: 30%;
     max-width: 250px;
 }
 
@@ -77,8 +88,12 @@
     }
 }
 
-@media(max-width: 600px) {
+@media(max-width: 560px) {
     .search-user {
+        display: none;
+    }
+
+    .navigation a:first-child {
         display: none;
     }
 }

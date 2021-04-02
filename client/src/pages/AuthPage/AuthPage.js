@@ -73,7 +73,7 @@ const AuthPage = (props) => {
                     <div className='left'>
                         <section className='copy'>
                             <h1>Kalina</h1>
-                            <p>For the beauty text.</p>
+                            <p>Text for the beauty.</p>
                         </section>
                     </div>
                     <div className='right'>

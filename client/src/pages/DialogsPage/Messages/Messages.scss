@@ -2,10 +2,11 @@
     display: flex;
     flex-direction: column;
     flex: 0.65;
+    position: relative;
 }
 
 .messages__header {
-    // padding-left: 3px;
+    padding-left: 5px;
     background-color: white;
     border-top-right-radius: 4px;
     display: flex;
@@ -24,13 +25,7 @@
 
 .messages__headerInfo > h3 {
     margin: 0;
-    font-size: calc(16px + 4 * ((100vw - 320px) / (1920 - 320)));
-}
-
-@media (max-width: 767px) {
-    .messages__headerInfo > h3{
-        font-size: calc(16px + (4 + 4*0.7) * ((100vw - 320px)/ 1024));
-    }
+    font-size: 20px;
 }
 
 .messages__headerInfo > p {
@@ -46,31 +41,53 @@
 }
 
 .messages__footer {
+    position: relative;
+    padding: 5px;
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
-    align-items: center;
-    height: 50px;
-    border-top: 1px solid lightgray;
-}
+    border-right: 2px solid #d2d2d4;
+    border-bottom: 2px solid #d2d2d4;
+    border-bottom-right-radius: 4px;
 
-.messages__footer > form {
-    flex: 1;
-    display: flex;
-}
+    .emojicon {
+        flex: .06;
+        color: #444444;
+        cursor: pointer;
+    }
 
-.messages__footer > form > input{
-    flex: 1;
-    border-radius: 30px;
-    padding: 10px;
-    border: none;
-}
-/* 
-.messages__footer > form > button{
-    display: none;
-} */
+    input {
+        flex: .84;
+        padding: 5px;
+        padding-left: 10px;
+        border: none;
+        margin: 0 5px;
+        border-radius: 20px;
+    }
 
-.messages__footer > .MuiSvgIcon-root {
-    color: gray;
+    input:focus {
+        outline: none;
+    }
+
+    button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        flex: .1;
+        border: none;
+        color: #444444;
+        border-radius: 20px;
+    }
+
+    button:disabled {
+        color: rgb(133, 133, 133);
+    }
+
+    button:focus {
+        outline: none;
+        background: none;
+    }
 }
 
 @media (max-width: 560px) {
@@ -80,7 +97,17 @@
     .btnBack {
         display: block;
     }
-    .emoji {
-        display: none !important;
+    .emojicon {
+        display: none;
+    }
+
+    .messages__footer {    
+        input {
+            flex: .9;
+        }
+    
+        button {
+            flex: .1;
+        }
     }
 }

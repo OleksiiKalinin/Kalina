@@ -89,21 +89,23 @@ const Profile = (props) => {
             :
             <div className='profile-page'>
                 <div className='profile__info'>
-                    <div>
-                        <Avatar style={{width: '93px', height: '93px'}} onClick={() => setIsChangingProfileImage(true)} src={props.user.profileImg || userPhoto}/>
+                    <div className='avatar'>
+                        <img onClick={() => setIsChangingProfileImage(true)} src={props.user.profileImg || userPhoto} alt=''/>
                     </div> 
                     {isChangingProfileImage && <>
-                    <div className='newPostWindow'>
-                        <div className='newPostBody'>
-                            <span>Upload image</span>
-                            <input type='file' onChange={e => setNewProfileImage(e.target.files[0])}/>
-                            <button onClick={changeProfileImage}>Submit</button>
+                        <div className='newPostWindow'>
+                            <div className='newPostBody'>
+                                <span>Upload image</span>
+                                <input type='file' onChange={e => setNewProfileImage(e.target.files[0])}/>
+                                <button onClick={changeProfileImage}>Submit</button>
+                            </div>
                         </div>
-                    </div>
-                </>}
-                    <div>
-                        <h4>{props.user.displayName}</h4>
-                        <div className='profile__info-attributes'>
+                    </>}
+                    <div className='info'>
+                        <div className='name-settings'>
+                            <h4>{props.user.displayName}</h4>
+                        </div>
+                        <div className='attributes'>
                             <h5>{myPosts.length} posts</h5>
                             <h5>{followData.followers.length} followers</h5>
                             <h5>{followData.following.length} following</h5>

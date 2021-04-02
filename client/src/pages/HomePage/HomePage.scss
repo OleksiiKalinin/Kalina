@@ -1,5 +1,4 @@
 .home-page {
-    margin-top: 15px;
     padding-bottom: 15px;
     height: 100%;
     overflow-y: scroll;
@@ -15,15 +14,16 @@
 
 .element {
     margin: 15px;
-    margin-top: 0;
+    margin-bottom: 0;
     border-radius: 4px;
     background-color: white;
     border: 1px solid #e7e8ec;
 }
 
 .card-header {
+    display: flex;
     width: 100%;
-    padding: 10px;
+    padding: 4px;
     border-bottom: 1px solid #e7e8ec;
 
     .MuiAvatar-root {
@@ -33,9 +33,14 @@
     }
 
     a {
-        display: flex;
+        align-self: center;
+        display: inline-flex;
         flex-direction: row;
         text-decoration: none;
+
+        &:hover {
+            text-decoration: none;
+        }
     }
 
     p {
@@ -54,7 +59,8 @@
     display: flex;
     flex-direction: column;
     border-bottom: 1px solid #e7e8ec;
-
+    align-items: flex-start;
+ 
     .comments {
         height: auto;
         max-height: 42px;
@@ -123,18 +129,14 @@
 @media(max-width: 800px) {
     .element {
         margin: 10px;
-        padding: 7px;
-        margin-top: 0;
+        margin-bottom: 0;
     }
-
-    
 }
 
 @media(max-width: 600px) {
     .element {
         margin: 6px;
-        padding: 5px;
-        margin-top: 0;
+        margin-bottom: 0;
     }
     .new-comment .emojicon {
         display: none;

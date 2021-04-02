@@ -3,43 +3,40 @@
     flex-direction: column;
     flex: 0.35;
     border-radius: 4px;
+    position: relative;
 }
 
 .dialogs__header {
     display: flex;
     justify-content: center;
+    align-items: center;
+    height: 49px;
+    padding: 5px 10px;
     border-right: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
     background-color: white;
     border-top-left-radius: 4px;
-}
 
-.dialogs__search {
-    display: flex;
-    align-items: center;
-    background-color: #f6f6f6;
-    height: 39px;
-    padding: 10px;
-    border-right: 1px solid lightgray;
-}
-
-.dialogs__searchContainer {
-    display: flex;
-    align-items: center;
-    background-color: white;
-    height: 35px;
-    width: 100%;
-    border-radius: 20px;
-}
-
-.dialogs__searchContainer > .MuiSvgIcon-root {
-    color: gray;
-    padding: 10px;
-}
-
-.dialogs__searchContainer > input {
-    border: none;
-    outline-width: 0;
-    margin-left: 10px;
+    #search-chats-input {
+        font-size: 16px;
+        padding: 0 30px;
+        border: 1px solid lightgray;
+        height: 100%;
+        width: 100%;
+        border-radius: 20px;
+    
+        &:focus {
+            outline: none;
+        }
+    }
+    
+    .search-chats {
+        position: relative;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+    }
 }
 
 .dialogs__items {

@@ -7,20 +7,27 @@ import Pusher from 'pusher-js';
 import MessageItem from './MessageItem';
 import { useHttp } from '../../../hooks/http.hook';
 import btnBack from '../../../assets/images/arrowback.svg';
+import Picker from 'emoji-picker-react';
 
 const MessagesList = (props) => {
     const {loading, error, request, clearError} = useHttp();
     const [newMessage, setNewMessage] = useState('');
+    const [isOpenedEmoji, setIsOpenedEmoji] = useState(false);
+    const [chosenEmoji, setChosenEmoji] = useState(null);
+
+    const onEmojiClick = (event, emojiObject) => {
+        setChosenEmoji(emojiObject);
+      };
     
-    const onSendMessageClick = async (e) => {
-        e.preventDefault();
+    const onSendMessageClick = async () => {
+        setNewMessage('');
+        setIsOpenedEmoji(false);
         try {
             await request(`/api/chats/new/message?id=${props.chat.chatId}`, 'POST', {
                 message: newMessage,
                 timestamp: Date.now()
             }, {Authorization: `Bearer ${props.token}`});
-        } catch {console.log(1)}
-        setNewMessage('');
+        } catch(err) {console.log(err)}
     }
 
     const fixScroll = () => {
@@ -28,11 +35,6 @@ const MessagesList = (props) => {
             const block = document.querySelector('.messages__body');
             block.scrollTop = block.scrollHeight;
         } catch{}
-    }
-
-    const onNewMessageChange = (e) => {
-        let body = e.target.value;
-        setNewMessage(body);
     }
 
     useEffect(() => {
@@ -63,12 +65,15 @@ const MessagesList = (props) => {
         };
     }, [props.chat.chatId]);
 
-    const toggleChat = () => {props.setIsDialogSelected(false)}
+    useEffect(() => {
+        if (chosenEmoji)
+        setNewMessage(prev => prev + chosenEmoji.emoji)
+    }, [chosenEmoji]);
 
     return (
         <div className='messages'>
             <div className='messages__header'>
-                <i onClick={toggleChat} className={"material-icons btnBack"} style={{fontSize: '40px'}}>arrow_back</i>
+                <i onClick={() => props.setIsDialogSelected(false)} className={"material-icons btnBack"} style={{fontSize: '40px'}}>arrow_back</i>
                 <Avatar src={props.chat.chatImg}/>
                 <div className='messages__headerInfo'>
                     <h3>{props.chat.chatName}</h3>
@@ -77,9 +82,9 @@ const MessagesList = (props) => {
                     <IconButton>
                         <SearchOutlined/>
                     </IconButton>
-                    <IconButton>
+                    {/* <IconButton>
                         <AttachFile/>
-                    </IconButton>
+                    </IconButton> */}
                     <IconButton>
                         <MoreVert/>
                     </IconButton>
@@ -89,19 +94,21 @@ const MessagesList = (props) => {
                 { props.messages.map( message => <MessageItem userName={props.user.displayName} message={message} key={message._id} /> ) }
             </div>
             <div className='messages__footer'>
-                <InsertEmoticon className='emoji'/>
-                <form>
-                    <input 
-                        type='text'
-                        value={newMessage}
-                        onChange={onNewMessageChange}
-                        placeholder='Enter your message'/>
-                    <button 
-                        type='submit'
-                        onClick={onSendMessageClick}>Send</button>
-                </form>
-                <MicIcon />
+                <i onClick={() => setIsOpenedEmoji(!isOpenedEmoji)} 
+                    className={"material-icons emojicon"} 
+                    style={{fontSize: '35px', cursor: 'pointer', width: '35px'}} >insert_emoticon</i>
+                <input 
+                    value={newMessage} 
+                    onChange={e => {setNewMessage(e.target.value); setIsOpenedEmoji(false);}} 
+                    onKeyUp={e => (e.keyCode === 13 && newMessage) ? onSendMessageClick() : false} 
+                    type='text' 
+                    placeholder='Enter your message'/>
+                <button onClick={onSendMessageClick} disabled={!newMessage}><i className={"material-icons"} style={{fontSize: '35px', cursor: 'pointer', width: '35px'}}>send</i></button>
             </div>
+            {isOpenedEmoji && 
+            <div style={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: '1000'}}>
+                <Picker disableAutoFocus={true} onEmojiClick={onEmojiClick} />
+            </div>}
         </div>
     )
 }

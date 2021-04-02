@@ -34,8 +34,8 @@ const Header = (props) => {
         <header className='header'>
             <span className="label"><Link to="/"><big>Kalina</big></Link></span>
             <div className="search-user">
-                <i className="material-icons" style={{position: 'absolute', top: '50%', transform: 'translateY(-50%)'}}>search</i>
-                <input type="text" placeholder="Search.." id="search-input" value={searchUsers} onChange={(e) => setSearchUsers(e.target.value)}/>
+                <i className="material-icons" style={{position: 'absolute', top: '50%', transform: 'translateY(-50%)', color: 'blue'}}>search</i>
+                <input type="text" placeholder="Search..." id="search-input" value={searchUsers} onChange={(e) => setSearchUsers(e.target.value)}/>
                 {
                     foundUsers.length !== 0 &&
                     <div className="dropdown-content">
@@ -44,11 +44,11 @@ const Header = (props) => {
                 }
             </div>
             <div className="navigation">
-                <Link to="/">Home</Link>
-                <Link to="/profile">Profile</Link>
-                <Link to="/dialogs">Dialogs</Link>
-                <Link to="/users">Users</Link>
-                <Link to="/" onClick={logoutHandler}>Log out</Link>
+                <Link to="/"><i className="material-icons">home</i></Link>
+                <Link to="/profile"><i className="material-icons">person</i></Link>
+                <Link to="/dialogs"><i className="material-icons">message</i></Link>
+                <Link to="/users"><i className="material-icons">people</i></Link>
+                <Link to="/" onClick={logoutHandler}><i className="material-icons">exit_to_app</i></Link>
             </div>
         </header>
     )
