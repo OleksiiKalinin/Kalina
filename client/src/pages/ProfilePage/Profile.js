@@ -7,7 +7,8 @@ import { useHttp } from '../../hooks/http.hook';
 import './Profile.scss';
 import Spinner from '../../components/Spinner/Spinner';
 import userPhoto from '../../assets/images/user.png';
-import { Avatar } from '@material-ui/core';
+import Jimp from 'jimp';
+
 
 const Profile = (props) => {
     const {error, request, clearError} = useHttp();
@@ -19,19 +20,50 @@ const Profile = (props) => {
     const [newProfileImage, setNewProfileImage] = useState('');
     const [myPosts, setMyPosts] = useState(null);
     const [followData, setFollowData] = useState(null);
-
+    const [profileImgParams, setProfileImgParams] = useState(null);
+    
     useEffect(async () => {
-        try{
-            const data = await request('/api/posts/get/myposts', 'GET', null, {
-                Authorization: `Bearer ${props.token}`,
-            });
-            const newfollowData = await request('/api/users/get/myfollowdata', 'GET', null, {
-                Authorization: `Bearer ${props.token}`
-            });
-            
+        const data = await request('/api/posts/get/myposts', 'GET', null, {
+            Authorization: `Bearer ${props.token}`,
+        });
+        const newfollowData = await request('/api/users/get/myfollowdata', 'GET', null, {
+            Authorization: `Bearer ${props.token}`
+        });
+
+        new Promise(function(resolve, reject) {
+            for (let i = 0; i < data.posts.length; ++i){
+                let img = document.createElement('img');
+                img.src=data.posts[i].picture;
+                img.onload = function () { 
+                    data.posts[i].params = img.width >= img.height ? 
+                    {height: '100%', minWidth: '100%', width: 'none', minHeight: 'none'} 
+                    : 
+                    {height: 'none', minWidth: 'none', width: '100%', minHeight: '100%'}
+
+                    if (i+1 === data.posts.length) resolve();
+                };
+            }
+        }).then(() => {
             setFollowData(newfollowData);
             setMyPosts(data.posts)
-        } catch(err) {console.log(err)}
+        });
+
+        new Promise(function(resolve, reject) {
+            let img = document.createElement('img');
+            img.src = props.user.profileImg;
+            img.onload = () => { 
+                setProfileImgParams(() => {
+                    if (img.width > img.height)
+                    return {height: '100%', minWidth: '100%'} 
+                    else if (img.width < img.height)
+                    return {width: '100%', minHeight: '100%'}
+                    else return {height: '100%', width: '100%'}
+                })
+                
+                resolve();
+            };
+        })
+        
     }, []);
 
     const setPostData = async () => {
@@ -90,29 +122,36 @@ const Profile = (props) => {
             <div className='profile-page'>
                 <div className='profile__info'>
                     <div className='avatar'>
-                        <img onClick={() => setIsChangingProfileImage(true)} src={props.user.profileImg || userPhoto} alt=''/>
+                        <img style={profileImgParams} onClick={() => setIsChangingProfileImage(true)} src={props.user.profileImg || userPhoto} alt=''/>
                     </div> 
-                    {isChangingProfileImage && <>
-                        <div className='newPostWindow'>
-                            <div className='newPostBody'>
-                                <span>Upload image</span>
-                                <input type='file' onChange={e => setNewProfileImage(e.target.files[0])}/>
-                                <button onClick={changeProfileImage}>Submit</button>
-                            </div>
-                        </div>
-                    </>}
                     <div className='info'>
                         <div className='name-settings'>
-                            <h4>{props.user.displayName}</h4>
+                            <h1>{props.user.displayName}</h1>
+                            <button>Settings</button>
+                            <button onClick={() => setIsCreatePostOpen(true)}>New post</button>
                         </div>
                         <div className='attributes'>
-                            <h5>{myPosts.length} posts</h5>
-                            <h5>{followData.followers.length} followers</h5>
-                            <h5>{followData.following.length} following</h5>
+                            <h3><strong>{myPosts.length}</strong> posts</h3>
+                            <h3><strong>{followData.followers.length}</strong> followers</h3>
+                            <h3><strong>{followData.following.length}</strong> following</h3>
                         </div>
                     </div>
                 </div>
-                <button onClick={() => setIsCreatePostOpen(true)}>Add new post</button>
+                
+                <div className='profile__gallery'>
+                {/* <i onClick={deletePost} className={"material-icons"} style={{fontSize: '30px', cursor: 'pointer', float: 'right'}}>delete</i> */}
+                {myPosts.map((post, i) => <div key={post._id}><div><img src={post.picture} alt=""  style={post.params}/></div></div>)}
+                </div>
+                
+                {isChangingProfileImage && <>
+                    <div className='newPostWindow'>
+                        <div className='newPostBody'>
+                            <span>Upload image</span>
+                            <input type='file' onChange={e => setNewProfileImage(e.target.files[0])}/>
+                            <button onClick={changeProfileImage}>Submit</button>
+                        </div>
+                    </div>
+                </>}
                 {isCreatePostOpen && <>
                     <div className='newPostWindow'>
                         <div className='newPostBody'>
@@ -124,10 +163,6 @@ const Profile = (props) => {
                         </div>
                     </div>
                 </>}
-                <div className='profile__gallery'>
-                {/* <i onClick={deletePost} className={"material-icons"} style={{fontSize: '30px', cursor: 'pointer', float: 'right'}}>delete</i> */}
-                    {myPosts.map(post => <img key={post._id} src={post.picture} alt=""/>)}
-                </div>
             </div>
         }
         </>

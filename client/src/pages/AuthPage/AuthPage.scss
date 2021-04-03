@@ -12,7 +12,6 @@ h2 {
 
 a {
     text-decoration: none;
-    color: $blue;
     cursor: pointer;
 }
 
@@ -54,6 +53,10 @@ a:hover {
     display: flex;
     justify-content: center;
     align-items: center;
+
+    a {
+        color: $blue;
+    }
 }
 
 .right {

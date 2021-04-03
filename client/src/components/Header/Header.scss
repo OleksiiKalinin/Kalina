@@ -74,9 +74,13 @@
     border: 1px solid #ddd;
     z-index: 1;
 
+    a:not(:last-child) {
+        border-bottom: 1px solid #dddddd;
+    }
+
     > a {
         color: black;
-        padding: 12px 16px;
+        padding: 3px 10px;
         text-decoration: none;
         display: block;
         height: 40px;
@@ -84,6 +88,22 @@
 
         &:hover {
             background-color: #d8d4d4;
+            text-decoration: none;
+        }
+
+        > div {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+
+            div {
+                width: 32px !important;
+                height: 32px !important;
+            }
+
+            p {
+                padding-left: 5px;
+            }
         }
     }
 }

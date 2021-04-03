@@ -5,6 +5,7 @@ import { useHttp } from '../../hooks/http.hook';
 import { logoutAC } from '../../redux/auth-reducer';
 import userPhoto from '../../assets/images/user.png';
 import './Header.scss';
+import { Avatar } from '@material-ui/core';
 
 const Header = (props) => {
     const {logout} = props;
@@ -30,16 +31,21 @@ const Header = (props) => {
         }
     }, [searchUsers]);
 
+    const onSearchClose = () => {
+        // setFoundUsers([]);
+        // setSearchUsers('');
+    }
+
     return (
         <header className='header'>
             <span className="label"><Link to="/"><big>Kalina</big></Link></span>
             <div className="search-user">
-                <i className="material-icons" style={{position: 'absolute', top: '50%', transform: 'translateY(-50%)', color: 'blue'}}>search</i>
-                <input type="text" placeholder="Search..." id="search-input" value={searchUsers} onChange={(e) => setSearchUsers(e.target.value)}/>
+                <i className="material-icons" style={{position: 'absolute', top: '50%', transform: 'translateY(-50%)'}}>search</i>
+                <input onBlur={onSearchClose} type="text" placeholder="Search..." id="search-input" value={searchUsers} onChange={(e) => setSearchUsers(e.target.value)}/>
                 {
                     foundUsers.length !== 0 &&
                     <div className="dropdown-content">
-                        {foundUsers.map(user => <Link to={'/profile/' + user._id}  key={user._id} onClick={() => setSearchUsers('')}><div><img style={{width: '30px'}} src={user.profileImg || userPhoto} alt='' />{user.displayName}</div></Link>)}
+                        {foundUsers.map(user => <Link to={'/profile/' + user._id}  key={user._id} onClick={() => setSearchUsers('')}><div><Avatar src={user.profileImg || userPhoto}/><p>{user.displayName}</p></div></Link>)}
                     </div> 
                 }
             </div>

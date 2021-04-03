@@ -16,7 +16,7 @@ const AuthPage = (props) => {
         displayName: '',
         password: ''
     });
-    const [isRegistrateForm, setIsRegistrateForm] = useState(true);
+    const [isRegistrateForm, setIsRegistrateForm] = useState(false);
     
     useEffect(() => {
         message(error);
