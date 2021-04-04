@@ -70,7 +70,7 @@ const DialogItem = (props) => {
     return (
         <div onClick={selectedDialog} className='dialogItem'>
             <div className='dialogItem__info'>
-                <div className='dialogItem__info-avatar'><Avatar src={extra.profileImg || userPhoto}/></div>
+                <div className='dialogItem__info-avatar'><Avatar src={extra.profileImg}/></div>
                 <div className='dialogItem__info-main'>
                     <div><h1>{extra.displayName || props.name}</h1></div>
                     <span className='dialogItem__info-message'>{displayName}: {message}</span>

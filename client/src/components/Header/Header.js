@@ -45,7 +45,7 @@ const Header = (props) => {
                 {
                     foundUsers.length !== 0 &&
                     <div className="dropdown-content">
-                        {foundUsers.map(user => <Link to={'/profile/' + user._id}  key={user._id} onClick={() => setSearchUsers('')}><div><Avatar src={user.profileImg || userPhoto}/><p>{user.displayName}</p></div></Link>)}
+                        {foundUsers.map(user => <Link to={'/profile/' + user._id}  key={user._id} onClick={() => setSearchUsers('')}><div><Avatar src={user.profileImg}/><p>{user.displayName}</p></div></Link>)}
                     </div> 
                 }
             </div>

@@ -61,7 +61,7 @@ const PostItem = ({post, token, user}) => {
         <div className='element'>
             <div className='card'>
                 <div className='card-header'>
-                    <Link to={user._id !== post.owner._id ? '/profile/' + post.owner._id : '/profile'}><Avatar src={post.owner.profileImg || userPhoto}/><p>{post.owner.displayName}</p></Link>
+                    <Link to={user._id !== post.owner._id ? '/profile/' + post.owner._id : '/profile'}><Avatar src={post.owner.profileImg}/><p>{post.owner.displayName}</p></Link>
                 </div>
                 <div className='card-image'>
                     <img src={post.picture} alt=""/>

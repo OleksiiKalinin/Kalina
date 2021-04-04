@@ -6,6 +6,7 @@ import Spinner from '../../components/Spinner/Spinner';
 import './Profile.scss';
 import { Avatar } from '@material-ui/core';
 import userPhoto from '../../assets/images/user.png'
+import PostItem from '../HomePage/PostItem';
 
 const Profile = (props) => {
     const {error, request, clearError} = useHttp(); 
@@ -13,6 +14,8 @@ const Profile = (props) => {
     const [isFollowing, setIsFollowing] = useState(null);
     const [profileImgParams, setProfileImgParams] = useState(null);
     const {userId} = useParams();
+    const [isPostDetailOpen, setIsPostDetailOpen] = useState(false);
+    const [selectedPost, setSelectedPost] = useState(null);
 
     useEffect(async () => {
         const data = await request(`/api/users/get/user/${userId}`, 'GET', null, {
@@ -20,6 +23,8 @@ const Profile = (props) => {
         });
 
         new Promise(function(resolve, reject) {
+            if (data.posts.length === 0) resolve();
+            
             for (let i = 0; i < data.posts.length; ++i){
                 let img = document.createElement('img');
                 img.src=data.posts[i].picture;
@@ -107,46 +112,23 @@ const Profile = (props) => {
             !userProfile ?
             <Spinner />
             :
-            // <div className='profile-page'>
-            //     <div className='profile__info'>
-            //         <div>
-            //             <Avatar src={userProfile.profileImg || userPhoto}/>                    </div> 
-            //         <div>
-            //             <h4>{userProfile.user.displayName}</h4>
-            //             <div className='profile__info-attributes'>
-            //                 <h5>{userProfile.posts.length} posts</h5>
-            //                 <h5>{userProfile.user.followers.length} followers</h5>
-            //                 <h5>{userProfile.user.following.length} following</h5>
-            //             </div>
-            //             {
-            //                 isFollowing ? 
-            //                 <button onClick={unfollowUser}>Unfollow</button>
-            //                 :
-            //                 <button onClick={followUser}>Follow</button>
-            //             }
-                        
-            //             <button onClick={sendMessage}>Send hello message</button>
-            //         </div>
-            //     </div>
-            //     <div className='profile__gallery'>
-            //         {userProfile.posts.map(post => <img key={post._id} src={post.picture} alt=""/>)}
-            //     </div>
-            // </div>
             <div className='profile-page'>
                 <div className='profile__info'>
                     <div className='avatar'>
-                        <img style={profileImgParams} src={userProfile.user.profileImg || userPhoto} alt=''/>
+                        <img style={profileImgParams} src={userProfile.user.profileImg} alt=''/>
                     </div> 
                     <div className='info'>
                         <div className='name-settings'>
                             <h1>{userProfile.user.displayName}</h1>
-                        {
-                            isFollowing ? 
-                            <button onClick={unfollowUser}>Unfollow</button>
-                            :
-                            <button onClick={followUser}>Follow</button>
-                        }
-                        <button onClick={sendMessage}>Send message</button>
+                            <div className='btn-wrapper'>
+                                {
+                                    isFollowing ? 
+                                    <button onClick={unfollowUser}>Unfollow</button>
+                                    :
+                                    <button onClick={followUser}>Follow</button>
+                                }
+                                <button onClick={sendMessage}>Send message</button>
+                            </div>
                         </div>
                         <div className='attributes'>
                             <h3><strong>{userProfile.posts.length}</strong> posts</h3>
@@ -155,11 +137,20 @@ const Profile = (props) => {
                         </div>
                     </div>
                 </div>
-                
+                <div className='mobile-attributes'>
+                    <h3><strong>{userProfile.posts.length}</strong> posts</h3>
+                    <h3><strong>{userProfile.user.followers.length}</strong> followers</h3>
+                    <h3><strong>{userProfile.user.following.length}</strong> following</h3>
+                </div>
                 <div className='profile__gallery'>
                 {/* <i onClick={deletePost} className={"material-icons"} style={{fontSize: '30px', cursor: 'pointer', float: 'right'}}>delete</i> */}
-                {userProfile.posts.map(post => <div key={post._id}><div><img src={post.picture} alt=""  style={post.params}/></div></div>)}
+                {userProfile.posts.map(post => <div onClick={() => {setSelectedPost(post); setIsPostDetailOpen(true)}} key={post._id}><div><img src={post.picture} alt=""  style={post.params}/></div></div>)}
                 </div>
+                {(selectedPost && isPostDetailOpen) && 
+                <div className='modal-window'>
+                <i onClick={() => setIsPostDetailOpen(false)} className={"material-icons close-btn"}>clear</i>
+                    <PostItem post={selectedPost} />
+                </div>}
             </div>
         }
         </>        

@@ -73,7 +73,9 @@ const MessagesList = (props) => {
     return (
         <div className='messages'>
             <div className='messages__header'>
-                <i onClick={() => props.setIsDialogSelected(false)} className={"material-icons btnBack"} style={{fontSize: '40px'}}>arrow_back</i>
+                <div className="btnBack" style={{height: '50px', width: '30px'}}>
+                    <i onClick={() => props.setIsDialogSelected(false)} className="material-icons" style={{fontSize: '50px', position: 'absolute', left: '-5px'}}>chevron_left</i>
+                </div>
                 <Avatar src={props.chat.chatImg}/>
                 <div className='messages__headerInfo'>
                     <h3>{props.chat.chatName}</h3>
