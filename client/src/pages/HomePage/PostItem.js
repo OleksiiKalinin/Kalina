@@ -3,7 +3,6 @@ import React, { useEffect, useRef } from 'react';
 import { useState } from 'react';
 import { useHttp } from '../../hooks/http.hook';
 import { Link } from 'react-router-dom';
-import userPhoto from '../../assets/images/user.png';
 import { Avatar } from '@material-ui/core';
 import Picker from 'emoji-picker-react';
 
@@ -20,9 +19,18 @@ const PostItem = ({post, token, user}) => {
     const [chosenEmoji, setChosenEmoji] = useState(null);
     const [isOpenedEmoji, setIsOpenedEmoji] = useState(false);
 
-    const onEmojiClick = (event, emojiObject) => {
-      setChosenEmoji(emojiObject);
-    };
+    const onEmojiClick = (event, emojiObject) => setChosenEmoji(emojiObject);
+    
+    useEffect(() => {
+        document.onmouseup = (e) => {
+            const emojiDiv = document.querySelector('.emojiDiv');
+            if (!e.path.includes(emojiDiv)) {
+                setIsOpenedEmoji(false);
+            }
+        }
+
+        return () => document.onmouseup = null;
+    }, [isOpenedEmoji]);
 
     useEffect(async () => {
         if (isLoaded) {
@@ -53,8 +61,10 @@ const PostItem = ({post, token, user}) => {
     }, [comments]);
 
     useEffect(() => {
-        if (chosenEmoji)
-        setNewComment(prev => prev + chosenEmoji.emoji)
+        if (chosenEmoji) {
+            setNewComment(prev => prev + chosenEmoji.emoji);
+
+        }
     }, [chosenEmoji]);
 
     return (
@@ -78,9 +88,10 @@ const PostItem = ({post, token, user}) => {
                 </div>
                 <div className='new-comment'>
                     {isOpenedEmoji && 
-                    <div style={{position: 'absolute', top: '50px', left: '50%', transform: 'translateX(-50%)', zIndex: '1000'}}>
-                        <Picker disableAutoFocus={true} onEmojiClick={onEmojiClick} />
-                    </div>}
+                        <div className='emojiDiv' style={{position: 'absolute', bottom: '20px', left: '50%', transform: 'translate(-50%, -32px)', zIndex: '1000'}}>
+                            <Picker disableAutoFocus={true} onEmojiClick={onEmojiClick} />
+                        </div>
+                    }
                     <i onClick={() => setIsOpenedEmoji(!isOpenedEmoji)} className={"material-icons emojicon"} style={{fontSize: '35px', cursor: 'pointer', width: '35px'}} >insert_emoticon</i>
                     <input value={newComment} onChange={e => {setNewComment(e.target.value); setIsOpenedEmoji(false);}} onKeyUp={e => (e.keyCode === 13 && newComment) ? newCommentHandler() : false} type='text' placeholder='Add a comment...'/>
                     <button onClick={newCommentHandler} disabled={!newComment}>Publish</button>

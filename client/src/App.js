@@ -10,7 +10,7 @@ import AuthPage from './pages/AuthPage/AuthPage';
 
 const App = (props) => {
     const data = JSON.parse(sessionStorage.getItem('storageName'));
-    const appWrapper = useRef(null);
+    const app = useRef(null);
 
     const isAuthenticated = !!props.token;
     const routes = useRoutes();
@@ -29,7 +29,7 @@ const App = (props) => {
 
     function fixOffset() {
         try{
-            appWrapper.current.style.height = document.body.clientHeight - (isAuthenticated ? 40 : 0) + 'px';
+            app.current.style.height = document.body.clientHeight - (isAuthenticated ? 40 : 0) + 'px';
         } catch {}    
     }
 
@@ -39,11 +39,12 @@ const App = (props) => {
                 <Route path="/" exact component={AuthPage} />
                 :
                 <>
-                    <div className='white-line'></div>
-                    <div className='app'>
+                    <div className='main'>
                         <Header />
-                        <div ref={appWrapper} className='app-wrapper'> 
-                            {routes}
+                        <div ref={app} className='app'> 
+                            <div className='WRAPPER'>
+                                {routes}
+                            </div>
                         </div>
                     </div>
                 </>

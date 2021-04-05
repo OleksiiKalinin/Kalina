@@ -20,15 +20,20 @@ const HomePage = (props) => {
     }, []);
 
     return (
-        <div className='home-page'>
-            {loading && <Spinner/>}
-            {/* <div className='element'>
-                <Slider imgWidth={1200} imgHeight={500}/>
-            </div> */}
-            <div className='home-page__inner'>
-                {allPosts.map(post => <PostItem post={post} key={post._id}/>)}
-            </div>
-        </div>
+        <>
+            {loading ? 
+                <Spinner/>
+                :
+                <div className='home-page'>
+                    {/* <div className='element'>
+                        <Slider imgWidth={1200} imgHeight={500}/>
+                    </div> */}
+                    <div className='home-page__inner'>
+                        {allPosts.map(post => <PostItem post={post} key={post._id}/>)}
+                    </div>
+                </div>
+            }
+        </>
     );
 };
 

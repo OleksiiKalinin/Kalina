@@ -1,10 +1,9 @@
 .profile-page {
     display: flex;
     flex-direction: column;
-    width: 100%;
     height: 100%;
-    overflow-y: scroll;
-    overflow-x: hidden;
+    max-width: 1024px;
+    margin: 0 auto;
 }
 
 .mobile-attributes {
@@ -246,16 +245,22 @@
         max-width: none;
     }
 
-    .name-settings .btn-wrapper {
-        align-self: flex-start;
-        flex-direction: column !important;
-
-        button {
-            font-size: 12px !important;
+    .name-settings {
+        h1 {
+            margin-right: 0 !important;
         }
+        
+        .btn-wrapper {
+            align-self: center;
+            flex-direction: column !important;
 
-        button:first-child {
-            margin-bottom: 5px;
+            button {
+                font-size: 12px !important;
+            }
+
+            button:first-child {
+                margin-bottom: 5px;
+            }
         }
     }
 }

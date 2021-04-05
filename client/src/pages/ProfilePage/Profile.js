@@ -5,6 +5,7 @@ import './Profile.scss';
 import Spinner from '../../components/Spinner/Spinner';
 import { loginAC } from '../../redux/auth-reducer';
 import PostItem from '../HomePage/PostItem';
+import imgParams from '../../hooks/imgParams.hook';
 
 
 const Profile = (props) => {
@@ -25,46 +26,20 @@ const Profile = (props) => {
         const data = await request('/api/posts/get/myposts', 'GET', null, {
             Authorization: `Bearer ${props.token}`,
         });
+        
         const newfollowData = await request('/api/users/get/myfollowdata', 'GET', null, {
             Authorization: `Bearer ${props.token}`
         });
 
-        new Promise(function(resolve, reject) {
-            if (data.posts.length === 0) resolve();
-            
-            for (let i = 0; i < data.posts.length; ++i){
-                let img = document.createElement('img');
-                img.src=data.posts[i].picture;
-                img.onload = function () { 
-                    data.posts[i].params = img.width >= img.height ? 
-                    {height: '100%', minWidth: '100%', width: 'none', minHeight: 'none'} 
-                    : 
-                    {height: 'none', minWidth: 'none', width: '100%', minHeight: '100%'}
+        setFollowData(newfollowData);
 
-                    if (i+1 === data.posts.length) resolve();
-                };
-            }
-        }).then(() => {
-            setFollowData(newfollowData);
-            setMyPosts(data.posts);
+        imgParams(data.posts).then((data) => {
+            setMyPosts(data);
         });
 
-        new Promise(function(resolve, reject) {
-            let img = document.createElement('img');
-            img.src = props.user.profileImg;
-            img.onload = () => { 
-                setProfileImgParams(() => {
-                    if (img.width > img.height)
-                    return {height: '100%', minWidth: '100%'} 
-                    else if (img.width < img.height)
-                    return {width: '100%', minHeight: '100%'}
-                    else return {height: '100%', width: '100%'}
-                })
-                
-                resolve();
-            };
-        })
-        
+        imgParams(props.user.profileImg).then(params => {
+            setProfileImgParams(params);
+        });
     }, []);
 
     const setPostData = async () => {
@@ -79,15 +54,15 @@ const Profile = (props) => {
         })
         .then(res => res.json())
         .then(async formData => {
-            await request('/api/posts/new/post', 'POST', {body, picture: formData.url}, {
+            const newPost = await request('/api/posts/new/post', 'POST', {body, picture: formData.url}, {
                 Authorization: `Bearer ${props.token}`,
             });
-            const data = await request('/api/posts/get/myposts', 'GET', null, {
-                Authorization: `Bearer ${props.token}`,
+
+            imgParams([newPost]).then((data) => {
+                setMyPosts([data[0], ...myPosts]);
+                setIsChangesLoading(false);
+                setIsCreatePostOpen(false);
             });
-            setMyPosts(data.posts);
-            setIsChangesLoading(false);
-            setIsCreatePostOpen(false);
         })
         .catch(err => console.log(err));
     };
@@ -129,24 +104,8 @@ const Profile = (props) => {
             Authorization: `Bearer ${props.token}`,
         });
 
-        new Promise(function(resolve, reject) {
-            if (data.posts.length === 0) resolve();
-            
-            for (let i = 0; i < data.posts.length; ++i){
-                let img = document.createElement('img');
-                img.src=data.posts[i].picture;
-                img.onload = function () { 
-                    data.posts[i].params = img.width >= img.height ? 
-                    {height: '100%', minWidth: '100%', width: 'none', minHeight: 'none'} 
-                    : 
-                    {height: 'none', minWidth: 'none', width: '100%', minHeight: '100%'}
+        imgParams(data.posts).then(data => setMyPosts(data));
 
-                    if (i+1 === data.posts.length) resolve();
-                };
-            }
-        }).then(() => {
-            setMyPosts(data.posts);
-        });
         setIsChangesLoading(false);
         setIsPostDetailOpen(false);
     }

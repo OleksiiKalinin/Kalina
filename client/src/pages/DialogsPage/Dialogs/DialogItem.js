@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import './DialogItem.scss';
-import {Link} from "react-router-dom";
 import { Avatar } from '@material-ui/core';
 import Pusher from 'pusher-js';
 import { setChatAC, setDialogsAC, setIsDialogSelectedAC, setMessagesAC } from "../../../redux/dialogs-reducer";
 import { connect } from 'react-redux';
 import { useHttp } from '../../../hooks/http.hook';
-import userPhoto from "../../../assets/images/user.png";
 
 const pusher = new Pusher('b634efb073fba40fbf3a', {
     cluster: 'eu'

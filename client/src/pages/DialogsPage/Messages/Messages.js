@@ -1,12 +1,10 @@
 import { Avatar, IconButton } from '@material-ui/core';
 import { AttachFile, InsertEmoticon, MoreVert, SearchOutlined } from '@material-ui/icons';
-import MicIcon from '@material-ui/icons/Mic';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './Messages.scss';
 import Pusher from 'pusher-js';
 import MessageItem from './MessageItem';
 import { useHttp } from '../../../hooks/http.hook';
-import btnBack from '../../../assets/images/arrowback.svg';
 import Picker from 'emoji-picker-react';
 
 const MessagesList = (props) => {
@@ -14,10 +12,23 @@ const MessagesList = (props) => {
     const [newMessage, setNewMessage] = useState('');
     const [isOpenedEmoji, setIsOpenedEmoji] = useState(false);
     const [chosenEmoji, setChosenEmoji] = useState(null);
+    const inputMessage = useRef(null);
 
     const onEmojiClick = (event, emojiObject) => {
         setChosenEmoji(emojiObject);
-      };
+    };
+    
+    useEffect(() => {
+        document.onmouseup = (e) => {
+            inputMessage.current.focus();
+            const emojiDiv = document.querySelector('.emojiDiv');
+            if (!e.path.includes(emojiDiv)) {
+                setIsOpenedEmoji(false);
+            }
+        }
+        
+        return () => document.onmouseup = null;
+    }, [isOpenedEmoji]);
     
     const onSendMessageClick = async () => {
         setNewMessage('');
@@ -39,6 +50,7 @@ const MessagesList = (props) => {
 
     useEffect(() => {
         window.addEventListener('resize', () => fixScroll());
+        inputMessage.current.focus();
 
         return () => window.removeEventListener('resize', () => fixScroll());
     }, [])
@@ -67,7 +79,7 @@ const MessagesList = (props) => {
 
     useEffect(() => {
         if (chosenEmoji)
-        setNewMessage(prev => prev + chosenEmoji.emoji)
+        setNewMessage(prev => prev + chosenEmoji.emoji);
     }, [chosenEmoji]);
 
     return (
@@ -100,6 +112,7 @@ const MessagesList = (props) => {
                     className={"material-icons emojicon"} 
                     style={{fontSize: '35px', cursor: 'pointer', width: '35px'}} >insert_emoticon</i>
                 <input 
+                    ref={inputMessage}
                     value={newMessage} 
                     onChange={e => {setNewMessage(e.target.value); setIsOpenedEmoji(false);}} 
                     onKeyUp={e => (e.keyCode === 13 && newMessage) ? onSendMessageClick() : false} 
@@ -108,7 +121,7 @@ const MessagesList = (props) => {
                 <button onClick={onSendMessageClick} disabled={!newMessage}><i className={"material-icons"} style={{fontSize: '35px', cursor: 'pointer', width: '35px'}}>send</i></button>
             </div>
             {isOpenedEmoji && 
-            <div style={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: '1000'}}>
+            <div className='emojiDiv' style={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: '1000'}}>
                 <Picker disableAutoFocus={true} onEmojiClick={onEmojiClick} />
             </div>}
         </div>

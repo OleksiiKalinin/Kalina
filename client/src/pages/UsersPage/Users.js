@@ -1,17 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import userPhoto from "../../assets/images/user.png";
 import './Users.scss';
 
 let Users = (props) => {
 
     return (
-        <div>
+        <div className='users-page'>
             <div>
                 <span>
                     <div>
                        <Link>
-                        <img alt='' src={userPhoto}
+                        <img alt='' 
                              className={'userPhoto'}/>
                        </Link>
                     </div>

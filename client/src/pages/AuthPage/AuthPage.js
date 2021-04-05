@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useHttp } from '../../hooks/http.hook';
-import { useMessage } from '../../hooks/message.hook';
 import { loginAC } from '../../redux/auth-reducer';
 import Spinner from '../../components/Spinner/Spinner';
 import './AuthPage.scss';
 
 const AuthPage = (props) => {
     const {login} = props;
-    const message = useMessage();
     const {error, request, clearError} = useHttp();
     const [loading, setLoading] = useState(false);
     const [form, setForm] = useState({
@@ -17,11 +15,6 @@ const AuthPage = (props) => {
         password: ''
     });
     const [isRegistrateForm, setIsRegistrateForm] = useState(false);
-    
-    useEffect(() => {
-        message(error);
-        clearError();
-    },[error, message, clearError]);
 
     useEffect(() => {
         const data = JSON.parse(sessionStorage.getItem('storageName'));
@@ -39,7 +32,6 @@ const AuthPage = (props) => {
         try {
             setLoading(true);
             const register = await request('/api/auth/register', 'POST', {...form}, {Authorization: `Bearer ${props.token}`});
-            message(register.message);
             setLoading(false);
             changeFormHandler();
         } catch (err) {

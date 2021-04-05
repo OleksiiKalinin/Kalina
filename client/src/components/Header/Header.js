@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import {Link, useHistory} from 'react-router-dom';
 import { useHttp } from '../../hooks/http.hook';
 import { logoutAC } from '../../redux/auth-reducer';
-import userPhoto from '../../assets/images/user.png';
 import './Header.scss';
 import { Avatar } from '@material-ui/core';
 
@@ -19,6 +18,14 @@ const Header = (props) => {
         logout(); 
         history.push('/');
     };
+
+    document.onmouseup = (e) => {
+        const searchUser = document.querySelector('.search-user');
+        if (!e.path.includes(searchUser)) {
+            setFoundUsers([]);
+            setSearchUsers('');
+        }
+    }
     
     useEffect(async () => {
         if (searchUsers) {
@@ -31,32 +38,29 @@ const Header = (props) => {
         }
     }, [searchUsers]);
 
-    const onSearchClose = () => {
-        // setFoundUsers([]);
-        // setSearchUsers('');
-    }
-
     return (
-        <header className='header'>
-            <span className="label"><Link to="/"><big>Kalina</big></Link></span>
-            <div className="search-user">
-                <i className="material-icons" style={{position: 'absolute', top: '50%', transform: 'translateY(-50%)'}}>search</i>
-                <input onBlur={onSearchClose} type="text" placeholder="Search..." id="search-input" value={searchUsers} onChange={(e) => setSearchUsers(e.target.value)}/>
-                {
-                    foundUsers.length !== 0 &&
-                    <div className="dropdown-content">
-                        {foundUsers.map(user => <Link to={'/profile/' + user._id}  key={user._id} onClick={() => setSearchUsers('')}><div><Avatar src={user.profileImg}/><p>{user.displayName}</p></div></Link>)}
-                    </div> 
-                }
+        <div className='header-wrapper'>
+            <div className='header'>
+                <span className="label"><Link to="/"><big>Kalina</big></Link></span>
+                <div className="search-user">
+                    <i className="material-icons" style={{position: 'absolute', top: '50%', transform: 'translateY(-50%)'}}>search</i>
+                    <input type="text" placeholder="Search..." id="search-input" value={searchUsers} onChange={(e) => setSearchUsers(e.target.value)}/>
+                    {
+                        foundUsers.length !== 0 &&
+                        <div className="dropdown-content">
+                            {foundUsers.map(user => <Link to={'/profile/' + user._id}  key={user._id} onClick={() => setSearchUsers('')}><div><Avatar src={user.profileImg}/><p>{user.displayName}</p></div></Link>)}
+                        </div> 
+                    }
+                </div>
+                <div className="navigation">
+                    <Link to="/"><i className="material-icons">home</i></Link>
+                    <Link to="/profile"><i className="material-icons">person</i></Link>
+                    <Link to="/dialogs"><i className="material-icons">message</i></Link>
+                    <Link to="/users"><i className="material-icons">people</i></Link>
+                    <Link to="/" onClick={logoutHandler}><i className="material-icons">exit_to_app</i></Link>
+                </div>
             </div>
-            <div className="navigation">
-                <Link to="/"><i className="material-icons">home</i></Link>
-                <Link to="/profile"><i className="material-icons">person</i></Link>
-                <Link to="/dialogs"><i className="material-icons">message</i></Link>
-                <Link to="/users"><i className="material-icons">people</i></Link>
-                <Link to="/" onClick={logoutHandler}><i className="material-icons">exit_to_app</i></Link>
-            </div>
-        </header>
+        </div>
     )
 }
 

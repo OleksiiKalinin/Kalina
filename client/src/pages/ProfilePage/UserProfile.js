@@ -3,10 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useHttp } from '../../hooks/http.hook';
 import Spinner from '../../components/Spinner/Spinner';
-import './Profile.scss';
-import { Avatar } from '@material-ui/core';
-import userPhoto from '../../assets/images/user.png'
 import PostItem from '../HomePage/PostItem';
+import imgParams from '../../hooks/imgParams.hook';
+import './Profile.scss';
 
 const Profile = (props) => {
     const {error, request, clearError} = useHttp(); 
@@ -22,46 +21,22 @@ const Profile = (props) => {
             Authorization: `Bearer ${props.token}`,
         });
 
-        new Promise(function(resolve, reject) {
-            if (data.posts.length === 0) resolve();
-            
-            for (let i = 0; i < data.posts.length; ++i){
-                let img = document.createElement('img');
-                img.src=data.posts[i].picture;
-                img.onload = function () { 
-                    data.posts[i].params = img.width >= img.height ? 
-                    {height: '100%', minWidth: '100%', width: 'none', minHeight: 'none'} 
-                    : 
-                    {height: 'none', minWidth: 'none', width: '100%', minHeight: '100%'}
-
-                    if (i+1 === data.posts.length) resolve();
-                };
-            }
-        }).then(() => {
-            setUserProfile(data);
+        imgParams(data.posts).then(posts => {
+            setUserProfile({posts, user: data.user});
             setIsFollowing(data.user.followers.includes(props.user._id));
         });
     }, []);
 
     useEffect(() => {
         if (userProfile) {
-            new Promise(function(resolve, reject) {
-                let img = document.createElement('img');
-                img.src = userProfile.user.profileImg;
-                img.onload = function () { 
-                    setProfileImgParams(img.width >= img.height ? 
-                    {height: '100%', minWidth: '100%', width: 'none', minHeight: 'none'} 
-                    : 
-                    {height: 'none', minWidth: 'none', width: '100%', minHeight: '100%'}
-                    )
-                    resolve();
-                };
+            imgParams(userProfile.user.profileImg).then(params => {
+                setProfileImgParams(params);
             });
         }
     }, [userProfile])
 
     const followUser = async () => {
-        const data = await request(`/api/users/put/follow`, 'PUT', {followId: userId}, {
+        await request(`/api/users/put/follow`, 'PUT', {followId: userId}, {
             Authorization: `Bearer ${props.token}`,
         }); 
         
@@ -74,7 +49,7 @@ const Profile = (props) => {
     }
 
     const unfollowUser = async () => {
-        const data = await request(`/api/users/put/unfollow`, 'PUT', {unfollowId: userId}, {
+        await request(`/api/users/put/unfollow`, 'PUT', {unfollowId: userId}, {
             Authorization: `Bearer ${props.token}`,
         }); 
         
@@ -90,7 +65,7 @@ const Profile = (props) => {
         const chatName = 'prompt';
         const firstMsg = 'Hello';
 
-        // if(chatName && firstMsg) {
+        if(chatName && firstMsg) {
             try {
                 let chatId = '';
 
@@ -103,7 +78,7 @@ const Profile = (props) => {
                     timestamp: Date.now()
                 }, {Authorization: `Bearer ${props.token}`});
             } catch(err) {console.log(err)}
-        // }
+        }
     }
     
     return(
