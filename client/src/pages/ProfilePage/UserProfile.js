@@ -121,11 +121,13 @@ const Profile = (props) => {
                 {/* <i onClick={deletePost} className={"material-icons"} style={{fontSize: '30px', cursor: 'pointer', float: 'right'}}>delete</i> */}
                 {userProfile.posts.map(post => <div onClick={() => {setSelectedPost(post); setIsPostDetailOpen(true)}} key={post._id}><div><img src={post.picture} alt=""  style={post.params}/></div></div>)}
                 </div>
-                {(selectedPost && isPostDetailOpen) && 
-                <div className='modal-window'>
-                <i onClick={() => setIsPostDetailOpen(false)} className={"material-icons close-btn"}>clear</i>
-                    <PostItem post={selectedPost} />
-                </div>}
+                {(selectedPost && isPostDetailOpen) && <>
+                    <div onClick={() => setIsPostDetailOpen(false)} className='modal-window__close'></div>
+                    <div className='modal-window'>
+                        <i onClick={() => setIsPostDetailOpen(false)} className={"material-icons close-btn"}>clear</i>
+                        <PostItem post={selectedPost} />
+                    </div>
+                </>}
             </div>
         }
         </>        

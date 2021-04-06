@@ -42,7 +42,7 @@ const App = (props) => {
                     <div className='main'>
                         <Header />
                         <div ref={app} className='app'> 
-                            <div className='WRAPPER'>
+                            <div className='app-inner'>
                                 {routes}
                             </div>
                         </div>

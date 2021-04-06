@@ -1,7 +1,7 @@
 .dialogs {
     display: flex;
     flex-direction: column;
-    flex: 0.35;
+    width: 35%;
     border-radius: 4px;
     position: relative;
 }
@@ -61,9 +61,9 @@
         transition: .5s all ease-in;
     }
 
-    .dialogs__items {
-        height: 100px;
-    }
+    // .dialogs__items {
+    //     height: 100px;
+    // }
 }
 
 .show {

@@ -29,7 +29,6 @@
 }
 
 .dialogItem__info-main h1{
-    // font-size: calc(16px + 4 * ((100vw - 320px) / (1920 - 320)));
     font-size: 15px;
 }
 
@@ -37,11 +36,15 @@
     font-size: 15px;
 }
 
-.timaStamp {
-    width: 40px;
+.timeStamp {
+    display: flex;
+    flex-direction: column;
     align-self: flex-end;
-    white-space: nowrap;
-    margin-left: 10px;
+    margin-left: 4px;
+
+    >div {
+        font-size: 11px;
+    }
 }
 
 .dialogItem__info-avatar {

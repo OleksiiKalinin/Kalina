@@ -65,6 +65,8 @@
         height: auto;
         max-height: 42px;
         overflow: hidden;
+        max-width: 100%;
+        overflow-wrap: break-word;
     }
 
     .show-comments {

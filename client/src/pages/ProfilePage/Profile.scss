@@ -46,6 +46,10 @@
             height: 40px;
             margin-bottom: 10px;
 
+            h1 {
+                text-align: center;
+            }
+
             div i {
                 font-size: 35px;
                 cursor: pointer;
@@ -116,6 +120,15 @@
     }
 }
 
+.modal-window__close {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-color: rgb(168, 168, 168);
+    opacity: .5;
+}
+
 .modal-window {
     display: flex;
     justify-content: center;
@@ -131,6 +144,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     overflow-y: auto;
+    z-index: 2;
 
     .close-btn {
         position: absolute;
@@ -145,7 +159,7 @@
     .delete-btn {
         position: absolute;
         top: 0;
-        right: 30px;
+        right: 40px;
         font-size: 30px; 
         cursor: pointer; 
         margin-top: 5px;
@@ -204,7 +218,6 @@
 
         i {
             padding-top: 5px;
-            margin-right: 10px !important;
             font-size: 25px !important;
         }
     }

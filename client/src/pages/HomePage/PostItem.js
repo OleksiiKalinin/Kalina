@@ -5,6 +5,7 @@ import { useHttp } from '../../hooks/http.hook';
 import { Link } from 'react-router-dom';
 import { Avatar } from '@material-ui/core';
 import Picker from 'emoji-picker-react';
+import toLocalDate from '../../hooks/toLocalDate.hook';
 
 const PostItem = ({post, token, user}) => {
     const {loading, error, request, clearError} = useHttp();
@@ -18,6 +19,7 @@ const PostItem = ({post, token, user}) => {
     const commentsField = useRef(null);
     const [chosenEmoji, setChosenEmoji] = useState(null);
     const [isOpenedEmoji, setIsOpenedEmoji] = useState(false);
+    const timestamp = toLocalDate(post.createdAt);
 
     const onEmojiClick = (event, emojiObject) => setChosenEmoji(emojiObject);
     
@@ -57,14 +59,7 @@ const PostItem = ({post, token, user}) => {
     }, [showAllComments]);
 
     useEffect(() => {
-        setComments(comments.sort((a, b) => b.timestamp - a.timestamp));
-    }, [comments]);
-
-    useEffect(() => {
-        if (chosenEmoji) {
-            setNewComment(prev => prev + chosenEmoji.emoji);
-
-        }
+        if (chosenEmoji) setNewComment(prev => prev + chosenEmoji.emoji);
     }, [chosenEmoji]);
 
     return (
@@ -84,7 +79,7 @@ const PostItem = ({post, token, user}) => {
                     <div className={'comments show-comments'} ref={commentsField}>
                         {comments.map(item => <div key={item._id}><strong>{item.owner.displayName}</strong> {item.text}</div>)}
                     </div>
-                    <div className='timestamp'>{post.createdAt}</div>
+                    <div className='timestamp'>{timestamp.date + ' ' + timestamp.time}</div>
                 </div>
                 <div className='new-comment'>
                     {isOpenedEmoji && 

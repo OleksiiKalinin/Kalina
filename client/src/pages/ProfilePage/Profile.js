@@ -146,6 +146,7 @@ const Profile = (props) => {
                 </div>
                 
                 {isChangingProfileImage && <>
+                    <div onClick={() => setIsPostDetailOpen(false)} className='modal-window__close'></div>
                     <div className='modal-window'>
                         {isChangesLoading && <Spinner />}
                         <i onClick={() => setIsChangingProfileImage(false)} className={"material-icons close-btn"}>clear</i>
@@ -160,6 +161,7 @@ const Profile = (props) => {
                     </div>
                 </>}
                 {isCreatePostOpen && <>
+                    <div onClick={() => setIsPostDetailOpen(false)} className='modal-window__close'></div>
                     <div className='modal-window'>
                         {isChangesLoading && <Spinner />}
                         <i onClick={() => setIsCreatePostOpen(false)} className={"material-icons close-btn"}>clear</i>
@@ -173,12 +175,15 @@ const Profile = (props) => {
                     </div>
                 </>}
                 {(selectedPost && isPostDetailOpen) && 
-                <div className='modal-window'>
-                    {isChangesLoading && <Spinner />}
-                    <i onClick={() => deletePost(selectedPost._id)} className={"material-icons delete-btn"}>delete</i>
-                    <i onClick={() => setIsPostDetailOpen(false)} className={"material-icons close-btn"}>clear</i>
-                    <PostItem post={selectedPost} />
-                </div>}
+                <>
+                    <div onClick={() => setIsPostDetailOpen(false)} className='modal-window__close'></div>
+                    <div className='modal-window'>
+                        {isChangesLoading && <Spinner />}
+                        <i onClick={() => deletePost(selectedPost._id)} className={"material-icons delete-btn"}>delete</i>
+                        <i onClick={() => setIsPostDetailOpen(false)} className={"material-icons close-btn"}>clear</i>
+                        <PostItem post={selectedPost} />
+                    </div>
+                </>}
             </div>
         }
         </>

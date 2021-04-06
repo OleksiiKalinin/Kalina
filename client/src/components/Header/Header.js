@@ -44,11 +44,11 @@ const Header = (props) => {
                 <span className="label"><Link to="/"><big>Kalina</big></Link></span>
                 <div className="search-user">
                     <i className="material-icons" style={{position: 'absolute', top: '50%', transform: 'translateY(-50%)'}}>search</i>
-                    <input type="text" placeholder="Search..." id="search-input" value={searchUsers} onChange={(e) => setSearchUsers(e.target.value)}/>
+                    <input type="text" placeholder="Search users..." id="search-input" value={searchUsers} onChange={(e) => setSearchUsers(e.target.value)}/>
                     {
                         foundUsers.length !== 0 &&
                         <div className="dropdown-content">
-                            {foundUsers.map(user => <Link to={'/profile/' + user._id}  key={user._id} onClick={() => setSearchUsers('')}><div><Avatar src={user.profileImg}/><p>{user.displayName}</p></div></Link>)}
+                            {foundUsers.map(user => <Link to={props.user._id !== user._id ? '/profile/' + user._id : '/profile'}  key={user._id} onClick={() => setSearchUsers('')}><div><Avatar src={user.profileImg}/><p>{user.displayName}</p></div></Link>)}
                         </div> 
                     }
                 </div>
@@ -66,7 +66,8 @@ const Header = (props) => {
 
 let mapStateToProps = (state) => {
     return {
-        token: state.auth.token
+        token: state.auth.token,
+        user: state.auth.user
     }
 }
 
