@@ -64,12 +64,20 @@ const Profile = (props) => {
                 setIsCreatePostOpen(false);
             });
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            setIsChangesLoading(false);
+            alert(err);
+        });
     };
 
     const changeProfileImage = async () => {
         setIsChangesLoading(true);
         const formData = new FormData();
+        if (!newProfileImage) {
+            alert('Error: please, choose an image');
+            setIsChangesLoading(false);
+            return;
+        }
         formData.append('file', newProfileImage);
         formData.append('upload_preset', 'kalina-why-not');
         formData.append('cloud_name', 'kalina-why-not');
@@ -146,30 +154,33 @@ const Profile = (props) => {
                 </div>
                 
                 {isChangingProfileImage && <>
-                    <div onClick={() => setIsPostDetailOpen(false)} className='modal-window__close'></div>
+                    <div onClick={() => setIsChangingProfileImage(false)} className='modal-window__close'></div>
                     <div className='modal-window'>
                         {isChangesLoading && <Spinner />}
                         <i onClick={() => setIsChangingProfileImage(false)} className={"material-icons close-btn"}>clear</i>
-                        <div className='newPostBody'>
+                        <div className='inner'>
                             <h1>Account settings</h1>
                             <div>
-                                <span>Upload image</span>
-                                <input type='file' accept="image/jpeg,image/png,image/bmp" onChange={e => setNewProfileImage(e.target.files[0])}/>
+                                <span>New profile image</span>
+                                <input type='file' accept="image/jpeg,image/png,image/bmp" onChange={e => setNewProfileImage(e.target.files[0])} required/>
                             </div>
                             <button onClick={changeProfileImage}>Submit</button>
                         </div>
                     </div>
                 </>}
                 {isCreatePostOpen && <>
-                    <div onClick={() => setIsPostDetailOpen(false)} className='modal-window__close'></div>
+                    <div onClick={() => setIsCreatePostOpen(false)} className='modal-window__close'></div>
                     <div className='modal-window'>
                         {isChangesLoading && <Spinner />}
                         <i onClick={() => setIsCreatePostOpen(false)} className={"material-icons close-btn"}>clear</i>
-                        <div className='newPostBody'>
-                            <span>Description</span>
-                            <input type='text' placeholder='Enter Description' value={body} onChange={e => setBody(e.target.value)}/>
-                            <span>Upload image</span>
-                            <input type='file' accept="image/jpeg,image/png,image/bmp" onChange={e => setNewPostImage(e.target.files[0])}/>
+                        <div className='inner'>
+                            <h1>New Post</h1>
+                            <div>
+                                <span>Post image</span>
+                                <input type='file' accept="image/jpeg,image/png,image/bmp" onChange={e => setNewPostImage(e.target.files[0])} required/>
+                                <span>Your comment</span>
+                                <input type='text' placeholder='Enter...' value={body} onChange={e => setBody(e.target.value)} required/>
+                            </div>
                             <button onClick={setPostData}>Submit</button>
                         </div>
                     </div>

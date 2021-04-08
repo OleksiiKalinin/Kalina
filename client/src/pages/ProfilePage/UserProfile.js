@@ -1,13 +1,15 @@
 import { connect } from 'react-redux';
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { useHttp } from '../../hooks/http.hook';
 import Spinner from '../../components/Spinner/Spinner';
 import PostItem from '../HomePage/PostItem';
 import imgParams from '../../hooks/imgParams.hook';
 import './Profile.scss';
+import { setChatAC, setDialogsAC, setIsDialogSelectedAC, setMessagesAC } from '../../redux/dialogs-reducer';
 
 const Profile = (props) => {
+    const history = useHistory();
     const {error, request, clearError} = useHttp(); 
     const [userProfile, setUserProfile] = useState(null);
     const [isFollowing, setIsFollowing] = useState(null);
@@ -62,23 +64,61 @@ const Profile = (props) => {
     }
 
     const sendMessage = async () => {
-        const chatName = 'prompt';
-        const firstMsg = 'Hello';
+        try {
+            let foundChat = null;
+            let extra = null; 
+            const chatName = null;
+            const firstMsg = 'lalal';
 
-        if(chatName && firstMsg) {
-            try {
-                let chatId = '';
+            const allChats = await request('/api/chats/get/conversations', 'GET', null, {
+                Authorization: `Bearer ${props.token}`,
+            });
+            
+            allChats.forEach(chat => {
+                chat.extra.forEach(item => {
+                    if (item.id === userId) {
+                        foundChat = chat.id;
+                    } 
+                })
+            });
 
-                const data = await request('/api/chats/new/conversation', 'POST', {chatName, other: userId}, {Authorization: `Bearer ${props.token}`});
-
-                chatId = data._id
-
-                await request(`/api/chats/new/message?id=${chatId}`, 'POST', {
+            if (foundChat) {
+                await request(`/api/chats/new/message?id=${foundChat}`, 'POST', {
                     message: firstMsg,
                     timestamp: Date.now()
                 }, {Authorization: `Bearer ${props.token}`});
-            } catch(err) {console.log(err)}
-        }
+            } else {
+                const data = await request('/api/chats/new/conversation', 'POST', {chatName, other: userId}, {Authorization: `Bearer ${props.token}`});
+
+                foundChat = data._id
+
+                await request(`/api/chats/new/message?id=${foundChat}`, 'POST', {
+                    message: firstMsg,
+                    timestamp: Date.now()
+                }, {Authorization: `Bearer ${props.token}`});
+            }
+
+            const chat = await request(`/api/chats/get/conversation?id=${foundChat}`, 'GET', null, {Authorization: `Bearer ${props.token}`});
+
+            props.setMessages(chat.conversation);
+
+            chat.extra.forEach(el => {
+                if (el.id !== props.user._id) {
+                    extra = {...el};
+                }
+            });
+
+            props.setChat({
+                chatName: extra.displayName || chat.chatName,
+                chatImg: extra.profileImg || chat.chatImg,
+                participantId: extra.id,
+                chatId: props.id
+            });
+
+            props.setIsDialogSelected(true);
+
+            history.push('/dialogs');
+        } catch(err) {console.log(err)}
     }
     
     return(
@@ -102,7 +142,21 @@ const Profile = (props) => {
                                     :
                                     <button onClick={followUser}>Follow</button>
                                 }
-                                <button onClick={sendMessage}>Send message</button>
+                                {/* <button onClick={sendMessage}>Send message</button> */}
+                                <div className='messages__footer'>
+                                    <input 
+                                        // ref={inputMessage}
+                                        // value={newMessage} 
+                                        // onChange={e => {setNewMessage(e.target.value); setIsOpenedEmoji(false);}} 
+                                        // onKeyUp={e => (e.keyCode === 13 && newMessage) ? onSendMessageClick() : false} 
+                                        type='text' 
+                                        placeholder='Enter your message'/>
+                                    <button 
+                                        // onClick={onSendMessageClick} 
+                                        // disabled={!newMessage}
+                                    >
+                                            <i className={"material-icons"} style={{fontSize: '35px', cursor: 'pointer', width: '35px'}}>send</i></button>
+                                </div>
                             </div>
                         </div>
                         <div className='attributes'>
@@ -136,17 +190,27 @@ const Profile = (props) => {
 
 let mapStateToProps = (state) => {
     return {
+        dialogs: state.dialogsPage.dialogs,
         token: state.auth.token,
         user: state.auth.user
     }
 }
 
-// let mapDispatchToProps = (dispatch) => {
-//     return {
-//         setDialogs: (dialogs) => {
-//             dispatch(setDialogsAC(dialogs));
-//         }
-//     }
-// }
+let mapDispatchToProps = (dispatch) => {
+    return {
+        setDialogs: (dialogs) => {
+            dispatch(setDialogsAC(dialogs));
+        },
+        setMessages: (messages) => {
+            dispatch(setMessagesAC(messages));
+        },
+        setChat: chat => {
+            dispatch(setChatAC(chat))
+        },
+        setIsDialogSelected: (a) => {
+            dispatch(setIsDialogSelectedAC(a))
+        }
+    }
+}
 
-export default connect(mapStateToProps)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

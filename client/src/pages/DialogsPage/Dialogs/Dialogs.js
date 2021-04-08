@@ -48,26 +48,6 @@ const DialogsList = (props) => {
             getDialogs();
         });
     }, []);
-
-    const addNewChat = async () => {
-        const chatName = prompt('Enter a chat name');
-        const firstMsg = prompt('Send a welcome message');
-
-        if(chatName && firstMsg) {
-            try {
-                let chatId = '';
-
-                const data = await request('/api/chats/new/conversation', 'POST', {chatName}, {Authorization: `Bearer ${props.token}`});
-
-                chatId = data._id
-
-                await request(`/api/chats/new/message?id=${chatId}`, 'POST', {
-                    message: firstMsg,
-                    timestamp: Date.now()
-                }, {Authorization: `Bearer ${props.token}`});
-            } catch(err) {console.log(err)}
-        }
-    }
     
     return (
             <div ref={dialogs} className={'dialogs show'}>
@@ -75,7 +55,7 @@ const DialogsList = (props) => {
                     <div className="search-chats">
                         <i className="material-icons" style={{position: 'absolute', top: '50%', transform: 'translateY(-50%)', paddingLeft: '5px'}}>search</i>
                         <input type="text" placeholder="Search the chat or start new" id="search-chats-input" value={searchChats} onChange={(e) => setSearchChats(e.target.value)}/>
-                        <i onClick={addNewChat} className="material-icons" style={{position: 'absolute', top: '50%', right: '0', transform: 'translateY(-50%)', paddingRight: '5px'}}>add</i>
+                        <i className="material-icons" style={{position: 'absolute', top: '50%', right: '0', transform: 'translateY(-50%)', paddingRight: '5px', opacity: '.5'}}>add</i>
                     </div>
                 </div>
                 <div ref={dialogsItems} className='dialogs__items'>
@@ -83,7 +63,7 @@ const DialogsList = (props) => {
                     loading ? 
                     <Spinner />
                     :
-                    props.dialogs.map(dialog => <DialogItem name={dialog.name} key={dialog.id} id={dialog.id} timestamp={dialog.timestamp} extra={dialog.extra}/> )
+                    props.dialogs.map(dialog => <DialogItem name={dialog.name} img={dialog.chatImg} key={dialog.id} id={dialog.id} timestamp={dialog.timestamp} extra={dialog.extra}/> )
                 }
                 </div>
             </div>

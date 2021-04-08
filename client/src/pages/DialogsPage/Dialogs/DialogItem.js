@@ -56,6 +56,7 @@ const DialogItem = (props) => {
             props.setChat({
                 chatName: extra.displayName || data.chatName,
                 chatImg: extra.profileImg || data.chatImg,
+                participantId: extra.id,
                 chatId: props.id
             });
             props.setIsDialogSelected(true);
@@ -69,7 +70,7 @@ const DialogItem = (props) => {
                 <div className='dialogItem__info'>
                     <div className='dialogItem__info-avatar'><Avatar src={extra.profileImg}/></div>
                     <div className='dialogItem__info-main'>
-                        <div><h1>{extra.displayName || props.name}</h1></div>
+                        <div><h1>{props.name || extra.displayName}</h1></div>
                         <span className='dialogItem__info-message'>{dialogsLastMsg.owner.displayName}: {dialogsLastMsg.message}</span>
                     </div>
                     <div className="timeStamp">
@@ -82,6 +83,7 @@ const DialogItem = (props) => {
         </>
     )
 }
+
 let mapStateToProps = (state) => {
     return {
         dialogs: state.dialogsPage.dialogs,

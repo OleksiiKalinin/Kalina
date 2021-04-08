@@ -31,11 +31,11 @@ const AuthPage = (props) => {
     const registerHandler = async () => {
         try {
             setLoading(true);
-            const register = await request('/api/auth/register', 'POST', {...form}, {Authorization: `Bearer ${props.token}`});
+            await request('/api/auth/register', 'POST', {...form}, {Authorization: `Bearer ${props.token}`});
             setLoading(false);
             changeFormHandler();
         } catch (err) {
-            alert(err.message);
+            alert(err);
             setLoading(false);
         }
     }
@@ -88,7 +88,10 @@ const AuthPage = (props) => {
                                     type="text"
                                     value={form.displayName}
                                     onChange={changeHandler}
-                                    required/>
+                                    required
+                                    placeholder='From 4 to 12 characters' 
+                                    minLength="4" 
+                                    maxLength="12"/>
                             </div>}
                             <div className='input-container email'>
                                 <label htmlFor='email'>Email</label>
@@ -109,7 +112,8 @@ const AuthPage = (props) => {
                                     value={form.password}
                                     onChange={changeHandler}
                                     placeholder='At least 6 characters!' 
-                                    required/>
+                                    required
+                                    minLength="6" />
                                 <i className='far fa-eye-slash' />
                             </div>
                             {isRegistrateForm ?

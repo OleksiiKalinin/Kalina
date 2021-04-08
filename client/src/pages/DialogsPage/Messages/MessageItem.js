@@ -6,7 +6,7 @@ const Message = (props) => {
     const timestamp = toLocalDate(parseInt(props.message.timestamp));
     
     return (
-        <div className={`messages__item  ${props.message.owner.displayName === props.userName && 'messages__receiver'}`}>
+        <div className={`messages__item  ${props.message.owner._id === props.userId && 'messages__receiver'}`}>
             <span className='message__name'>{props.message.owner.displayName}</span>
             <div className='message'>{props.message.message}</div>
             <span className='message__timestamp'>{timestamp.date + ' ' + timestamp.time}</span>
