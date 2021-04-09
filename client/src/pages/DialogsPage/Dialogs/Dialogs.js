@@ -25,6 +25,9 @@ const Dialogs = (props) => {
             const data = await request('/api/chats/get/conversations', 'GET', null, {
                 Authorization: `Bearer ${props.token}`,
             });
+            
+            if (data.length === 0) props.setIsDialogsLoading(false);
+
             props.setDialogs(data);
             setIsLoading(false);
         } catch(err) {console.log(err)}
@@ -33,10 +36,6 @@ const Dialogs = (props) => {
     useEffect(() => {
         !props.isDialogSelected ? dialogs.current.classList.add('show') : dialogs.current.classList.remove('show');
     }, [props.isDialogSelected])
-
-    useEffect(() => {
-        if (!props.dialogs) props.setIsDialogsLoading(false);
-    }, [props.dialogs]);
     
     useEffect(() => {
         getDialogs();
