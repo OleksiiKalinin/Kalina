@@ -33,6 +33,10 @@ const Dialogs = (props) => {
     useEffect(() => {
         !props.isDialogSelected ? dialogs.current.classList.add('show') : dialogs.current.classList.remove('show');
     }, [props.isDialogSelected])
+
+    useEffect(() => {
+        if (!props.dialogs) props.setIsDialogsLoading(false);
+    }, [props.dialogs]);
     
     useEffect(() => {
         getDialogs();
