@@ -7,7 +7,7 @@ import { useHttp } from '../../hooks/http.hook';
 import './Users.scss';
 
 const Users = (props) => {
-    const {error, request, clearError} = useHttp();
+    const {request} = useHttp();
     const [searchUsers, setSearchUsers] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const [foundUsers, setFoundUsers] = useState([]);

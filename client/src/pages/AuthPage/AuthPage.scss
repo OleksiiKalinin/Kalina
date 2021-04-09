@@ -13,10 +13,10 @@ h2 {
 a {
     text-decoration: none;
     cursor: pointer;
-}
 
-a:hover {
-    text-decoration: underline;
+    &:hover {
+        text-decoration: underline;
+    }
 }
 
 .small {

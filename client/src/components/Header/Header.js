@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import {Link, useHistory} from 'react-router-dom';
 import { useHttp } from '../../hooks/http.hook';
 import { logoutAC } from '../../redux/auth-reducer';
-import './Header.scss';
 import { Avatar } from '@material-ui/core';
+import './Header.scss';
 
 const Header = (props) => {
     const {logout} = props;
     const history = useHistory();
-    const {error, request, clearError} = useHttp();
+    const {request} = useHttp();
     const [searchUsers, setSearchUsers] = useState('');
     const [foundUsers, setFoundUsers] = useState([]);
 

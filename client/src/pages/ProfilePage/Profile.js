@@ -1,15 +1,15 @@
-import { connect } from 'react-redux';
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import { useHttp } from '../../hooks/http.hook';
-import './Profile.scss';
 import Spinner from '../../components/Spinner/Spinner';
 import { loginAC } from '../../redux/auth-reducer';
 import PostItem from '../HomePage/PostItem';
 import imgParams from '../../hooks/imgParams.hook';
+import './Profile.scss';
 
 
 const Profile = (props) => {
-    const {error, request, clearError} = useHttp();
+    const {request} = useHttp();
     const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
     const [isPostDetailOpen, setIsPostDetailOpen] = useState(false);
     const [isChangingProfileImage, setIsChangingProfileImage] = useState(false);
@@ -30,7 +30,7 @@ const Profile = (props) => {
         const newfollowData = await request('/api/users/get/myfollowdata', 'GET', null, {
             Authorization: `Bearer ${props.token}`
         });
-
+        console.log(newfollowData)
         setFollowData(newfollowData);
 
         imgParams(data.posts).then((data) => {

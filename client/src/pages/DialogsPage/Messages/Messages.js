@@ -1,16 +1,18 @@
-import { Avatar, IconButton } from '@material-ui/core';
-import { AttachFile, InsertEmoticon, MoreVert, SearchOutlined } from '@material-ui/icons';
 import React, { useEffect, useRef, useState } from 'react';
-import './Messages.scss';
+import { Avatar, IconButton } from '@material-ui/core';
+import { AttachFile, SearchOutlined } from '@material-ui/icons';
 import Pusher from 'pusher-js';
 import MessageItem from './MessageItem';
 import { useHttp } from '../../../hooks/http.hook';
 import Picker from 'emoji-picker-react';
 import { Link } from 'react-router-dom';
 import SpinnerSmall from '../../../components/Spinner/SpinnerSmall';
+import {sendMessageCreator, setChatAC, setIsDialogSelectedAC, setMessagesAC} from "../../../redux/dialogs-reducer";
+import {connect} from "react-redux";
+import './Messages.scss';
 
-const MessagesList = (props) => {
-    const {loading, error, request, clearError} = useHttp();
+const Messages = (props) => {
+    const {request} = useHttp();
     const [newMessage, setNewMessage] = useState('');
     const [isOpenedEmoji, setIsOpenedEmoji] = useState(false);
     const [isSendingNewMessage, setIsSendingNewMessage] = useState(false);
@@ -103,11 +105,8 @@ const MessagesList = (props) => {
                     <IconButton>
                         <SearchOutlined/>
                     </IconButton>
-                    {/* <IconButton>
-                        <AttachFile/>
-                    </IconButton> */}
                     <IconButton>
-                        <MoreVert/>
+                        <AttachFile/>
                     </IconButton>
                 </div>
             </div>
@@ -138,4 +137,29 @@ const MessagesList = (props) => {
     )
 }
 
-export default MessagesList;
+let mapStateToProps = (state) => {
+    return {
+        messages: state.dialogsPage.messages,
+        chat: state.dialogsPage.chat,
+        user: state.auth.user,
+        token: state.auth.token
+    }
+}
+let mapDispatchToProps = (dispatch) => {
+    return {
+        sendMessage: () => {
+            dispatch(sendMessageCreator());
+        },
+        setMessages: (messages) => {
+            dispatch(setMessagesAC(messages));
+        },
+        setChat: chat => {
+            dispatch(setChatAC(chat))
+        },
+        setIsDialogSelected: (a) => {
+            dispatch(setIsDialogSelectedAC(a))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Messages);

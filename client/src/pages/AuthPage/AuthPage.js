@@ -7,7 +7,7 @@ import './AuthPage.scss';
 
 const AuthPage = (props) => {
     const {login} = props;
-    const {error, request, clearError} = useHttp();
+    const {request} = useHttp();
     const [loading, setLoading] = useState(false);
     const [form, setForm] = useState({
         email: '',

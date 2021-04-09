@@ -1,12 +1,11 @@
-import React, { createRef, forwardRef, useEffect, useRef } from 'react';
-import './App.scss';
-import {BrowserRouter as Router, HashRouter, Route} from "react-router-dom";
+import React, { useEffect, useRef } from 'react';
+import {BrowserRouter as Router, Route} from "react-router-dom";
 import Header from "./components/Header/Header";
 import { connect } from 'react-redux';
 import { useRoutes } from './routes';
-// import Spinner from './components/Spinner/spinner';
 import { loginAC } from './redux/auth-reducer';
 import AuthPage from './pages/AuthPage/AuthPage';
+import './App.scss';
 
 const App = (props) => {
     const data = JSON.parse(sessionStorage.getItem('storageName'));

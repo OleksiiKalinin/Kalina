@@ -9,26 +9,25 @@
     border-radius: 10px;
     background-color: #fff;
     margin-bottom: 30px;
-}
 
-.messages__item:last-child {
-    margin-bottom: 0;
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    .message__timestamp {
+        align-self: flex-end;
+        font-size: xx-small;
+    }
+
+    .message__name {
+        position: absolute;
+        top: -15px;
+        font-weight: 800;
+        font-size: xx-small;    
+    }
 }
 
 .messages__receiver {
     margin-left: auto;
     background-color: #dcf8c6;
 }
-
-.message__timestamp {
-    align-self: flex-end;
-    font-size: xx-small;
-}
-
-.message__name {
-    position: absolute;
-    top: -15px;
-    font-weight: 800;
-    font-size: xx-small;    
-}
-

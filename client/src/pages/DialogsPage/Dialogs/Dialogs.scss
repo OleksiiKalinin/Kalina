@@ -44,11 +44,11 @@
     background-color: #fff;
     overflow-y: auto;
     border-right: 1px solid lightgray;
-}
 
-.dialogs__items > a {
-    text-decoration: none;
-    color: black;
+    > a {
+        text-decoration: none;
+        color: black;
+    }
 }
 
 @media (max-width: 560px) {
@@ -60,10 +60,6 @@
         z-index: 100;
         transition: .5s all ease-in;
     }
-
-    // .dialogs__items {
-    //     height: 100px;
-    // }
 }
 
 .show {

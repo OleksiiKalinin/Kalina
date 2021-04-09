@@ -8,7 +8,7 @@ import Picker from 'emoji-picker-react';
 import toLocalDate from '../../hooks/toLocalDate.hook';
 
 const PostItem = ({post, token, user}) => {
-    const {loading, error, request, clearError} = useHttp();
+    const {request} = useHttp();
     const [isLiked, setIsLiked] = useState(post.likes.includes(user._id));
     const [isLoaded, setIsLoaded] = useState(false);
     const [likesCount, setLikesCount] = useState(post.likes.length);

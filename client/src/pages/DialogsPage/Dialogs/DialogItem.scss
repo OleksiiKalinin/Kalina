@@ -3,50 +3,50 @@
     cursor: pointer;
     border-bottom: 1px solid #f6f6f6;
     position: relative;
-}
 
-.dialogItem:hover {
-    background-color: #e2dddd;
-}
-
-.dialogItem__info {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin: 0 5px;
-}
-
-.dialogItem__info > div {
-    display: flex;
-    flex-direction: column;
-}
-
-.dialogItem__info-main {
-    flex: 1;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
-.dialogItem__info-main h1{
-    font-size: 15px;
-}
-
-.dialogItem__info-message{
-    font-size: 15px;
-}
-
-.timeStamp {
-    display: flex;
-    flex-direction: column;
-    align-self: flex-end;
-    margin-left: 4px;
-
-    >div {
-        font-size: 11px;
+    &:hover {
+        background-color: #e2dddd;
     }
-}
+    
+    .dialogItem__info {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin: 0 5px;
 
-.dialogItem__info-avatar {
-    margin-right: 10px;
+        > div {
+            display: flex;
+            flex-direction: column;
+        }
+
+        &-main {
+            flex: 1;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+
+            h1{
+                font-size: 15px;
+            }
+        }
+
+        &-message{
+            font-size: 15px;
+        }
+
+        &-avatar {
+            margin-right: 10px;
+        }
+
+        .timeStamp {
+            display: flex;
+            flex-direction: column;
+            align-self: flex-end;
+            margin-left: 4px;
+        
+            >div {
+                font-size: 11px;
+            }
+        }
+    }
 }

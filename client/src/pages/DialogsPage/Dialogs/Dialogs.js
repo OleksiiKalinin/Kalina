@@ -1,27 +1,21 @@
 import React, { useEffect, useRef } from 'react';
-// import ChatIcon from '@material-ui/icons/Chat';
-// import DonutLargeIcon from '@material-ui/icons/DonutLarge';
-// import MoreVertIcon from '@material-ui/icons/MoreVert';
-import "./Dialogs.scss";
-// import { IconButton, Avatar } from '@material-ui/core';
-import { SearchOutlined } from '@material-ui/icons';
 import DialogItem from './DialogItem';
-import { Button } from '@material-ui/core';
 import Pusher from 'pusher-js';
 import { useHttp } from '../../../hooks/http.hook';
-import { setDialogsAC } from '../../../redux/dialogs-reducer';
+import { setDialogsAC, setIsDialogsLoadingAC } from '../../../redux/dialogs-reducer';
 import { connect } from 'react-redux';
 import { useState } from 'react';
 import Spinner from '../../../components/Spinner/Spinner';
+import "./Dialogs.scss";
 
 const pusher = new Pusher('b634efb073fba40fbf3a', {
     cluster: 'eu'
 });
 
-const DialogsList = (props) => {    
-    const {error, request, clearError} = useHttp();
-    const [loading, setLoading] = useState(true);
+const Dialogs = (props) => {    
+    const {request} = useHttp();
     const [searchChats, setSearchChats] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
     const dialogs = useRef(null);
     const dialogsHeader = useRef(null);
     const dialogsItems = useRef(null);
@@ -32,7 +26,7 @@ const DialogsList = (props) => {
                 Authorization: `Bearer ${props.token}`,
             });
             props.setDialogs(data);
-            setLoading(false);
+            setIsLoading(false);
         } catch(err) {console.log(err)}
     }
     
@@ -47,6 +41,12 @@ const DialogsList = (props) => {
         channel.bind('newChat', () => {
             getDialogs();
         });
+
+        return () => {
+            channel.unbind_all();
+            channel.unsubscribe();
+            props.setIsDialogsLoading(true);
+        };
     }, []);
     
     return (
@@ -60,10 +60,17 @@ const DialogsList = (props) => {
                 </div>
                 <div ref={dialogsItems} className='dialogs__items'>
                 {
-                    loading ? 
-                    <Spinner />
-                    :
-                    props.dialogs.map(dialog => <DialogItem name={dialog.name} img={dialog.chatImg} key={dialog.id} id={dialog.id} timestamp={dialog.timestamp} extra={dialog.extra}/> )
+                    props.isDialogsLoading && <Spinner />
+                }
+                {
+                    !isLoading &&
+                    props.dialogs.map((dialog, i) => {
+                        let index = null;
+                        if (i+1 === props.dialogs.length) index = i;
+                        return (
+                            <DialogItem index={index} dialog={dialog} key={dialog.id} extra={dialog.extra}/> 
+                        )
+                    })
                 }
                 </div>
             </div>
@@ -74,6 +81,7 @@ let mapStateToProps = (state) => {
     return {
         dialogs: state.dialogsPage.dialogs,
         isDialogSelected: state.dialogsPage.isDialogSelected,
+        isDialogsLoading: state.dialogsPage.isDialogsLoading,
         user: state.auth.user,
         token: state.auth.token
     }
@@ -83,8 +91,11 @@ let mapDispatchToProps = (dispatch) => {
     return {
         setDialogs: (dialogs) => {
             dispatch(setDialogsAC(dialogs));
+        },
+        setIsDialogsLoading: (a) => {
+            dispatch(setIsDialogsLoadingAC(a))
         }
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DialogsList);
+export default connect(mapStateToProps, mapDispatchToProps)(Dialogs);

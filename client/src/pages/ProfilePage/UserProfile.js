@@ -1,33 +1,49 @@
 import { connect } from 'react-redux';
 import React, { useEffect, useState } from 'react';
-import { Link, useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useHttp } from '../../hooks/http.hook';
 import Spinner from '../../components/Spinner/Spinner';
 import PostItem from '../HomePage/PostItem';
 import imgParams from '../../hooks/imgParams.hook';
-import './Profile.scss';
 import { setChatAC, setDialogsAC, setIsDialogSelectedAC, setMessagesAC } from '../../redux/dialogs-reducer';
+import SpinnerSmall from '../../components/Spinner/SpinnerSmall';
+import './Profile.scss';
 
 const Profile = (props) => {
     const history = useHistory();
-    const {error, request, clearError} = useHttp(); 
+    const {request} = useHttp(); 
     const [userProfile, setUserProfile] = useState(null);
     const [isFollowing, setIsFollowing] = useState(null);
     const [profileImgParams, setProfileImgParams] = useState(null);
     const {userId} = useParams();
     const [isPostDetailOpen, setIsPostDetailOpen] = useState(false);
     const [selectedPost, setSelectedPost] = useState(null);
+    const [newMessage, setNewMessage] = useState('');
+    const [isOpenedNewMessageField, setIsOpenedNewMessageField] = useState(false);
+    const [isSendingNewMessage, setIsSendingNewMessage] = useState(false);
 
     useEffect(async () => {
         const data = await request(`/api/users/get/user/${userId}`, 'GET', null, {
             Authorization: `Bearer ${props.token}`,
         });
-
+        
         imgParams(data.posts).then(posts => {
             setUserProfile({posts, user: data.user});
             setIsFollowing(data.user.followers.includes(props.user._id));
         });
     }, []);
+
+    useEffect(() => {
+        document.onmouseup = (e) => {
+            const input = document.querySelector('.new-message');
+            
+            if (!e.path.includes(input)) {
+                setIsOpenedNewMessageField(false);
+            }
+        }
+        
+        return () => document.onmouseup = null;
+    }, [isOpenedNewMessageField]);
 
     useEffect(() => {
         if (userProfile) {
@@ -65,59 +81,63 @@ const Profile = (props) => {
 
     const sendMessage = async () => {
         try {
-            let foundChat = null;
-            let extra = null; 
-            const chatName = null;
-            const firstMsg = 'lalal';
+            if (newMessage) {
+                setIsSendingNewMessage(true);
+                setNewMessage('');
+                let foundChat = null;
+                let extra = null; 
+                const chatName = null;
 
-            const allChats = await request('/api/chats/get/conversations', 'GET', null, {
-                Authorization: `Bearer ${props.token}`,
-            });
-            
-            allChats.forEach(chat => {
-                chat.extra.forEach(item => {
-                    if (item.id === userId) {
-                        foundChat = chat.id;
-                    } 
-                })
-            });
+                const allChats = await request('/api/chats/get/conversations', 'GET', null, {
+                    Authorization: `Bearer ${props.token}`,
+                });
+                
+                allChats.forEach(chat => {
+                    chat.extra.forEach(item => {
+                        if (item.id === userId) {
+                            foundChat = chat.id;
+                        } 
+                    })
+                });
 
-            if (foundChat) {
-                await request(`/api/chats/new/message?id=${foundChat}`, 'POST', {
-                    message: firstMsg,
-                    timestamp: Date.now()
-                }, {Authorization: `Bearer ${props.token}`});
-            } else {
-                const data = await request('/api/chats/new/conversation', 'POST', {chatName, other: userId}, {Authorization: `Bearer ${props.token}`});
+                if (foundChat) {
+                    await request(`/api/chats/new/message?id=${foundChat}`, 'POST', {
+                        message: newMessage,
+                        timestamp: Date.now()
+                    }, {Authorization: `Bearer ${props.token}`});
+                } else {
+                    const data = await request('/api/chats/new/conversation', 'POST', {chatName, other: userId}, {Authorization: `Bearer ${props.token}`});
 
-                foundChat = data._id
+                    foundChat = data._id
 
-                await request(`/api/chats/new/message?id=${foundChat}`, 'POST', {
-                    message: firstMsg,
-                    timestamp: Date.now()
-                }, {Authorization: `Bearer ${props.token}`});
-            }
-
-            const chat = await request(`/api/chats/get/conversation?id=${foundChat}`, 'GET', null, {Authorization: `Bearer ${props.token}`});
-
-            props.setMessages(chat.conversation);
-
-            chat.extra.forEach(el => {
-                if (el.id !== props.user._id) {
-                    extra = {...el};
+                    await request(`/api/chats/new/message?id=${foundChat}`, 'POST', {
+                        message: newMessage,
+                        timestamp: Date.now()
+                    }, {Authorization: `Bearer ${props.token}`});
                 }
-            });
 
-            props.setChat({
-                chatName: extra.displayName || chat.chatName,
-                chatImg: extra.profileImg || chat.chatImg,
-                participantId: extra.id,
-                chatId: props.id
-            });
+                const chat = await request(`/api/chats/get/conversation?id=${foundChat}`, 'GET', null, {Authorization: `Bearer ${props.token}`});
 
-            props.setIsDialogSelected(true);
+                props.setMessages(chat.conversation);
 
-            history.push('/dialogs');
+                chat.extra.forEach(el => {
+                    if (el.id !== props.user._id) {
+                        extra = {...el};
+                    }
+                });
+
+                props.setChat({
+                    chatName: extra.displayName || chat.chatName,
+                    chatImg: extra.profileImg || chat.chatImg,
+                    participantId: extra.id,
+                    chatId: props.id
+                });
+
+                props.setIsDialogSelected(true);
+                setIsSendingNewMessage(false);
+
+                history.push('/dialogs');
+            }
         } catch(err) {console.log(err)}
     }
     
@@ -142,21 +162,23 @@ const Profile = (props) => {
                                     :
                                     <button onClick={followUser}>Follow</button>
                                 }
-                                {/* <button onClick={sendMessage}>Send message</button> */}
-                                <div className='messages__footer'>
-                                    <input 
-                                        // ref={inputMessage}
-                                        // value={newMessage} 
-                                        // onChange={e => {setNewMessage(e.target.value); setIsOpenedEmoji(false);}} 
-                                        // onKeyUp={e => (e.keyCode === 13 && newMessage) ? onSendMessageClick() : false} 
-                                        type='text' 
-                                        placeholder='Enter your message'/>
-                                    <button 
-                                        // onClick={onSendMessageClick} 
-                                        // disabled={!newMessage}
-                                    >
-                                            <i className={"material-icons"} style={{fontSize: '35px', cursor: 'pointer', width: '35px'}}>send</i></button>
-                                </div>
+                                <button onClick={() => setIsOpenedNewMessageField(!isOpenedNewMessageField)}>Send message</button>
+                                {isOpenedNewMessageField &&
+                                    <div className='new-message'>
+                                        <input 
+                                            value={newMessage} 
+                                            onChange={e => setNewMessage(e.target.value)} 
+                                            onKeyUp={e => (e.keyCode === 13 && newMessage) ? sendMessage() : false} 
+                                            type='text' 
+                                            placeholder='Enter your message'/>
+                                        <button 
+                                            onClick={sendMessage} 
+                                            disabled={!newMessage}>
+                                                {isSendingNewMessage && <SpinnerSmall />}
+                                                <i className={"material-icons"} style={{fontSize: '35px', cursor: 'pointer', width: '35px'}}>send</i>
+                                        </button>
+                                    </div>
+                                }
                             </div>
                         </div>
                         <div className='attributes'>
