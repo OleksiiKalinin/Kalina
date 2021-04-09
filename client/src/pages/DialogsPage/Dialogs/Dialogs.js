@@ -25,7 +25,7 @@ const Dialogs = (props) => {
             const data = await request('/api/chats/get/conversations', 'GET', null, {
                 Authorization: `Bearer ${props.token}`,
             });
-            
+
             if (data.length === 0) props.setIsDialogsLoading(false);
 
             props.setDialogs(data);
@@ -66,10 +66,9 @@ const Dialogs = (props) => {
                     props.isDialogsLoading && <Spinner />
                 }
                 {
-                    !isLoading &&
-                    props.dialogs.map((dialog, i) => {
+                    !isLoading && props.dialogs.map((dialog, i) => {
                         let index = null;
-                        if (i+1 === props.dialogs.length) index = i;
+                        if (i+1 === props.dialogs.length) index = true;
                         return (
                             <DialogItem index={index} dialog={dialog} key={dialog.id} extra={dialog.extra}/> 
                         )
