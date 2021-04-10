@@ -8,7 +8,7 @@ import { useState } from 'react';
 import Spinner from '../../../components/Spinner/Spinner';
 import "./Dialogs.scss";
 
-const pusher = new Pusher('b634efb073fba40fbf3a', {
+const pusher = new Pusher('private :)', {
     cluster: 'eu'
 });
 
