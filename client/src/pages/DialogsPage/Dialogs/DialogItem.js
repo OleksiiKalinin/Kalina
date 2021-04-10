@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { useHttp } from '../../../hooks/http.hook';
 import toLocalDate from '../../../hooks/toLocalDate.hook';
 
-const pusher = new Pusher('b634efb073fba40fbf3a', {
+const pusher = new Pusher('private :)', {
     cluster: 'eu'
 });
 
