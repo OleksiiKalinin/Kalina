@@ -16,5 +16,5 @@ qwerty
 4. ![Скриншот 11-04-2021 00 56 58](https://user-images.githubusercontent.com/73401289/114286719-90655f80-9a61-11eb-992b-ee1920fdde93.png) is realtime Dialogspage;
 5. ![Скриншот 11-04-2021 00 57 17](https://user-images.githubusercontent.com/73401289/114286730-aa9f3d80-9a61-11eb-989c-bdf45c732eda.png) is for log out;
 
-To start a chat you must search for a user name, open user profile and click on "Send message" button then enter your message
-To make sure
+To start a chat you must search for a user name, open user profile and click on "Send message" button then enter your message.
+To see that it's really realtime you can create to accounts and start a conversation beetwen that.
