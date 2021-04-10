@@ -17,4 +17,7 @@ qwerty
 5. ![Скриншот 11-04-2021 00 57 17](https://user-images.githubusercontent.com/73401289/114286730-aa9f3d80-9a61-11eb-989c-bdf45c732eda.png) is for log out;
 
 To start a chat you must search for a user name, open user profile and click on "Send message" button then enter your message.
-To see that it's really realtime you can create to accounts and start a conversation beetwen that.
+To see that it's actually realtime you can create to accounts and start a conversation beetwen that.
+
+Based on React, Redux, SCSS, PusherJS, Cloudinary.
+Deployed on Heroku.
