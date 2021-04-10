@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import {BrowserRouter as Router, Route} from "react-router-dom";
+import {BrowserRouter as Router, Redirect, Route, Switch} from "react-router-dom";
 import Header from "./components/Header/Header";
 import { connect } from 'react-redux';
 import { useRoutes } from './routes';
@@ -35,7 +35,10 @@ const App = (props) => {
     return (
         <Router>
             {!isAuthenticated ? 
-                <Route path="/" exact component={AuthPage} />
+                <Switch>
+                    <Route path="/" exact component={AuthPage} />
+                    <Redirect to='/' />
+                </Switch>
                 :
                 <>
                     <div className='main'>
