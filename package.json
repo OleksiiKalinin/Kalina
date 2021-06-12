@@ -1,5 +1,6 @@
 {
-  "name": "backend_test",
+  "name": "Kalina",
+  "author": "Oleksii Kalinin",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -12,7 +13,6 @@
     "dev": "concurrently \"npm run server\" \"npm run client\" "
   },
   "keywords": [],
-  "author": "Oleksii Kalinin",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1"

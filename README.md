@@ -1,44 +1,23 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Developing started in January 2021 (not finished yet)
 
-## Available Scripts
+Link: https://kalinachats.herokuapp.com/
 
-In the project directory, you can run:
+When you visit the site for the first time, loading time may take longer. Please wait:)
 
-### `npm start`
+If you have problems with authorization, please try this:
+email:
+kalinin.lesha@list.ru
+password:
+qwerty
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. ![Скриншот 11-04-2021 00 56 26](https://user-images.githubusercontent.com/73401289/114286644-e84f9680-9a60-11eb-95c9-9bbce1dd6d37.png) and ![Скриншот 11-04-2021 00 56 37](https://user-images.githubusercontent.com/73401289/114286651-fbfafd00-9a60-11eb-915e-f2b8b010cd50.png) provide you to Homepage;
+2. By ![Скриншот 11-04-2021 00 59 27](https://user-images.githubusercontent.com/73401289/114286671-2ea4f580-9a61-11eb-8f68-3b0a33e3278c.png) and ![Скриншот 11-04-2021 00 57 10](https://user-images.githubusercontent.com/73401289/114286681-3a90b780-9a61-11eb-831e-e0f8ef293e4b.png) you can find other users and view their profiles;
+3. ![Скриншот 11-04-2021 00 56 44](https://user-images.githubusercontent.com/73401289/114286707-7a579f00-9a61-11eb-9bcd-053d239c4d61.png) provide you to your Profilepage;
+4. ![Скриншот 11-04-2021 00 56 58](https://user-images.githubusercontent.com/73401289/114286719-90655f80-9a61-11eb-992b-ee1920fdde93.png) is realtime Dialogspage;
+5. ![Скриншот 11-04-2021 00 57 17](https://user-images.githubusercontent.com/73401289/114286730-aa9f3d80-9a61-11eb-989c-bdf45c732eda.png) is for log out;
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+To start a chat you must search for a user name, open user profile and click on "Send message" button then enter your message.
+To see that it's actually realtime you can create to accounts and start a conversation beetwen that.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Based on React, Redux, SCSS, PusherJS, Cloudinary.
+Deployed on Heroku.
