@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import Slider from '../../components/Slider/Slider';
+// import Slider from '../../components/Slider/Slider';
 import { useHttp } from '../../hooks/http.hook';
 import PostItem from './PostItem';
 import Spinner from '../../components/Spinner/Spinner';

@@ -27,7 +27,8 @@ const Messages = (props) => {
         document.onmouseup = (e) => {
             inputMessage.current.focus();
             const emojiDiv = document.querySelector('.emojiDiv');
-            if (!e.path.includes(emojiDiv)) {
+            const path = e.path || e.composedPath();
+            if (!path.includes(emojiDiv)) {
                 setIsOpenedEmoji(false);
             }
         }

@@ -36,8 +36,8 @@ const Profile = (props) => {
     useEffect(() => {
         document.onmouseup = (e) => {
             const input = document.querySelector('.new-message');
-            
-            if (!e.path.includes(input)) {
+            const path = e.path || e.composedPath();
+            if (!path.includes(input)) {
                 setIsOpenedNewMessageField(false);
             }
         }

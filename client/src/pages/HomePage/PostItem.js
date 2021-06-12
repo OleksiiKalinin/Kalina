@@ -26,7 +26,8 @@ const PostItem = ({post, token, user}) => {
     useEffect(() => {
         document.onmouseup = (e) => {
             const emojiDiv = document.querySelector('.emojiDiv');
-            if (!e.path.includes(emojiDiv)) {
+            const path = e.path || e.composedPath();
+            if (!path.includes(emojiDiv)) {
                 setIsOpenedEmoji(false);
             }
         }

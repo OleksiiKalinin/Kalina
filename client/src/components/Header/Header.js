@@ -21,7 +21,8 @@ const Header = (props) => {
 
     document.onmouseup = (e) => {
         const searchUser = document.querySelector('.search-user');
-        if (!e.path.includes(searchUser)) {
+        const path = e.path || e.composedPath();
+        if (!path.includes(searchUser)) {
             setFoundUsers([]);
             setSearchUsers('');
         }
