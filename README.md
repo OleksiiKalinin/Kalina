@@ -1,6 +1,6 @@
 Developing started in January 2021 (not finished yet)
 
-Link: https://kalinachats.herokuapp.com/
+Link: not available
 
 When you visit the site for the first time, loading time may take longer. Please wait:)
 
